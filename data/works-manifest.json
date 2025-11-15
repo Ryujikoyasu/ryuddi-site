@@ -1,0 +1,63 @@
+[
+  {
+    "id": "shirt1",
+    "title": "制服シャツ（草花拓＋藍）",
+    "url": "works/shirt1.html",
+    "cover": "images/wear/shirt1/cover.jpg",
+    "techs": ["kusabana", "kusaki:indigo"],
+    "tags": ["wear"],
+    "region": ["doto", "koinzemi"],
+    "season": "summer"
+  },
+  {
+    "id": "shirt2",
+    "title": "制服シャツ（カラムシ＋拓）",
+    "url": "works/shirt2.html",
+    "cover": "images/wear/shirt2/cover.jpg",
+    "techs": ["kusaki:karamushi", "kusabana"],
+    "tags": ["wear"],
+    "region": ["koinzemi"],
+    "season": "summer"
+  },
+  {
+    "id": "zabuton-kushiro",
+    "title": "おは奈座布団 釧路",
+    "url": "works/ohana-zabuton-kushiro.html",
+    "cover": "images/cases/zabuton-kushiro/1.jpg",
+    "techs": ["kusabana", "kusaki:karamushi"],
+    "tags": ["wear"],
+    "region": ["doto"],
+    "season": null
+  },
+  
+  {
+    "id": "hirune-set",
+    "title": "真菰の昼寝グッズ　枕・敷物・草履",
+    "url": "works/hirune.html",
+    "cover": "images/objects/hirune/cover.jpg",
+    "techs": ["kusaki:kusagi"],
+    "tags": ["object"],
+    "region": ["koinzemi"],
+    "season": "autumn"
+  },
+  {
+    "id": "pants1",
+    "title": "茶碗蒸しパンツ（ラミー直線裁断サルエル）",
+    "url": "works/pants1.html",
+    "cover": "images/wear/pants1/cover.jpg",
+    "techs": [],
+    "tags": ["wear"],
+    "region": ["koinzemi"],
+    "season": "autumn"
+  },
+  {
+    "id": "tops1",
+    "title": "貫頭衣／クロップドマント（クサギ染＋朽木スタンプ）",
+    "url": "works/tops1.html",
+    "cover": "images/wear/tops1/cover.jpg",
+    "techs": ["kusaki:kusagi", "kusabana"],
+    "tags": ["wear"],
+    "region": ["koinzemi"],
+    "season": "autumn"
+  }
+]

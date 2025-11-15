@@ -1,0 +1,16 @@
+title: Sample Project
+year: 2025
+location: Tokyo
+tech:
+  - Arduino
+  - LED
+tags:
+  - media-art
+  - installation
+summary: |
+  This is a sample work entry demonstrating how to structure metadata
+  for shared consumption by both sites.
+images:
+  - images/main.jpg
+videos: []
+

@@ -1,0 +1,20 @@
+{
+  "name": "おはな研究所 / OHANA LAB",
+  "short_name": "OHANA LAB",
+  "start_url": "/ryuddi-site/",
+  "display": "standalone",
+  "background_color": "#fcfaf7",
+  "theme_color": "#fcfaf7",
+  "icons": [
+    {
+      "src": "icons/logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,199 @@
+{
+  "projects": [
+    {
+      "id": "ohana-robot",
+      "title": "OHANA-ROBOT",
+      "year": 2023,
+      "theme": "畑ロボット",
+      "featured": true,
+      "lead": "農と暮らしから立ち上がるロボット群。ローカル知と実装の往復。土地の記憶に寄り添いながら、必要十分な技術で身体拡張を設計する。",
+      "media": ["ロボティクス", "地場素材", "センサ", "マイコン", "プロトタイピング"],
+      "category": ["robotics"],
+      "thumbnail": "",
+      "path": "works/ohana-robot.html"
+    },
+    {
+      "id": "vernacular-rice-robot",
+      "title": "ヴァナキュラーな稲作ロボット",
+      "year": 2024,
+      "theme": "山、稲作文化",
+      "featured": true,
+      "lead": "地形・水・労働のリズムに同調するロボット。機能美ではなく、暮らしの可変性に溶ける道具としての構成。",
+      "media": ["ロボティクス", "稲作", "地形読解", "道具設計"],
+      "category": ["robotics", "agri"],
+      "thumbnail": "",
+      "path": "works/vernacular-rice-robot.html"
+    },
+    {
+      "id": "akebi-tengu",
+      "title": "アケビ天狗",
+      "year": 2024,
+      "theme": "山、稲作文化",
+      "category": ["object"],
+      "thumbnail": "/content/projects/山、稲作文化/akebi-tengu/images/cover.jpg",
+      "path": "works/akebi-tengu.html"
+    },
+    {
+      "id": "katamenyo",
+      "title": "カタメニョウ",
+      "year": 2024,
+      "theme": "山、稲作文化",
+      "category": ["object"],
+      "thumbnail": "/content/projects/山、稲作文化/katamenyo/images/cover.jpg",
+      "path": "works/katamenyo.html"
+    },
+    {
+      "id": "shishi-odoshi",
+      "title": "秋の庭・鹿おどし",
+      "year": 2025,
+      "theme": "季節、土地とともに生きる",
+      "featured": true,
+      "lead": "無機と有機の境界で鈴が鳴る。建築の空洞と秋の虫の呼吸が共振する、時間の彫刻。",
+      "media": ["インスタレーション", "鈴", "鹿角", "LED", "塩ビ管", "建築介入"],
+      "category": ["installation"],
+      "thumbnail": "",
+      "path": "works/shishi-odoshi.html"
+    },
+    {
+      "id": "ohana-ike",
+      "title": "お花の池・小鳥の森",
+      "year": 2025,
+      "theme": "季節、土地とともに生きる",
+      "featured": true,
+      "lead": "水面と森の縁で、光と音が息をする。人の歩みに応じて、蓄光と反響がさざめく風景装置。",
+      "media": ["光", "音", "LiDAR", "蓄光", "LED", "3Dプリント"],
+      "category": ["light-sound"],
+      "thumbnail": "/content/projects/季節、土地とともに生きる/works/ohana-ike-kotori-mori.jpg",
+      "path": "works/ohana-ike.html"
+    },
+    {
+      "id": "ohana-zabuton-kushiro",
+      "title": "おは奈座布団 釧路",
+      "year": 2025,
+      "theme": "季節、土地とともに生きる",
+      "featured": true,
+      "lead": "座るという行為に季節を宿す。草木の痕跡と、暮らしの身体が交わる座の器。",
+      "media": ["布", "草花拓", "カラムシ", "手縫い"],
+      "category": ["wear"],
+      "thumbnail": "/content/projects/季節、土地とともに生きる/cases/zabuton-kushiro/1.jpg",
+      "path": "works/ohana-zabuton-kushiro.html"
+    },
+    {
+      "id": "kusabana-taku",
+      "title": "草花拓",
+      "year": 2025,
+      "theme": "季節、土地とともに生きる",
+      "featured": true,
+      "lead": "植物の形象を布に写すことは、季節の呼吸を衣に記憶させる行為。技法は目的ではなく、出会いの器。",
+      "media": ["テキスタイル", "転写", "植物", "布", "染色"],
+      "category": ["process", "textile"],
+      "thumbnail": "/content/projects/季節、土地とともに生きる/works/kusabana-taku.jpg",
+      "path": "works/kusabana.html"
+    },
+    {
+      "id": "nature-print",
+      "title": "草花拓（技法）",
+      "year": 2025,
+      "theme": "季節、土地とともに生きる",
+      "category": ["technique"],
+      "thumbnail": "/content/projects/季節、土地とともに生きる/techniques/nature-print/1.jpg",
+      "path": "works/nature-print.html"
+    },
+    {
+      "id": "washi-light",
+      "title": "五箇山和紙の灯り",
+      "year": 2025,
+      "theme": "季節、土地とともに生きる",
+      "category": ["interior", "lighting"],
+      "thumbnail": "/content/projects/季節、土地とともに生きる/interior/washi.png",
+      "path": "works/washi-light.html"
+    },
+    
+    {
+      "id": "hirune-set",
+      "title": "真菰の昼寝グッズ　枕・敷物・草履",
+      "year": 2025,
+      "theme": "季節、土地とともに生きる",
+      "featured": true,
+      "lead": "眠ることは土地に身を預けること。真菰の匂いと手触りが、からだの輪郭をやわらげる。",
+      "media": ["真菰", "編組", "寝具", "手仕事"],
+      "category": ["object"],
+      "thumbnail": "/content/projects/季節、土地とともに生きる/objects/hirune/cover.jpg",
+      "path": "works/hirune.html"
+    },
+    {
+      "id": "shirt1",
+      "title": "制服シャツ（草花拓＋藍）",
+      "year": 2025,
+      "theme": "季節、土地とともに生きる",
+      "featured": true,
+      "lead": "季節の輪郭を布に写し、藍で呼吸を重ねる。日常をまとうための儀式としてのシャツ。",
+      "media": ["草花拓", "藍染", "シャツ", "縫製"],
+      "category": ["wear"],
+      "thumbnail": "/content/projects/季節、土地とともに生きる/wear/shirt1/cover.jpg",
+      "path": "works/shirt1.html"
+    },
+    {
+      "id": "shirt2",
+      "title": "制服シャツ（カラムシ＋拓）",
+      "year": 2025,
+      "theme": "季節、土地とともに生きる",
+      "featured": true,
+      "lead": "苧（カラムシ）の土臭さと身体性を、転写の偶然性でひらく。制服という制度を、土地の衣へ。",
+      "media": ["カラムシ染", "草花拓", "シャツ", "縫製"],
+      "category": ["wear"],
+      "thumbnail": "/content/projects/季節、土地とともに生きる/wear/shirt2/cover.jpg",
+      "path": "works/shirt2.html"
+    },
+    {
+      "id": "tops1",
+      "title": "貫頭衣／クロップドマント",
+      "year": 2025,
+      "theme": "季節、土地とともに生きる",
+      "category": ["wear"],
+      "thumbnail": "/content/projects/季節、土地とともに生きる/wear/tops1/cover.jpg",
+      "path": "works/tops1.html"
+    },
+    {
+      "id": "pants1",
+      "title": "茶碗蒸しパンツ（ラミー直線裁断サルエル）",
+      "year": 2025,
+      "theme": "季節、土地とともに生きる",
+      "featured": true,
+      "lead": "直線裁断の潔さで、からだの居心地を設計する。食の名を借りた軽やかさと、布の落ち感。",
+      "media": ["ラミー", "直線裁断", "縫製", "ウェア"],
+      "category": ["wear"],
+      "thumbnail": "/content/projects/季節、土地とともに生きる/wear/pants1/cover.jpg",
+      "path": "works/pants1.html"
+    },
+    
+    {
+      "id": "zouri1",
+      "title": "草履1（真菰）",
+      "year": 2025,
+      "theme": "季節、土地とともに生きる",
+      "category": ["wear", "object"],
+      "thumbnail": "/content/projects/季節、土地とともに生きる/wear/zouri1/cover.jpg",
+      "path": "works/zouri1.html"
+    },
+    
+    {
+      "id": "karamushi",
+      "title": "カラムシ染（技法）",
+      "year": 2025,
+      "theme": "季節、土地とともに生きる",
+      "category": ["technique"],
+      "thumbnail": "/content/projects/季節、土地とともに生きる/techniques/kusaki-zome/karamushi/3.png",
+      "path": "works/karamushi.html"
+    },
+    {
+      "id": "kusagi-dye",
+      "title": "クサギ染（技法）",
+      "year": 2025,
+      "theme": "季節、土地とともに生きる",
+      "category": ["technique"],
+      "thumbnail": "/content/projects/季節、土地とともに生きる/techniques/kusaki-zome/kusagi/somemono.jpeg",
+      "path": "works/kusagi.html"
+    }
+  ]
+}

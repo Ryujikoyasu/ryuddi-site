@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>作品一覧 - おはな研究所</title>
+  <meta name="description" content="おはな研究所の作品一覧。季節と遊ぶように、素材と向き合い、形を生み出しています。">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://ryujikoyasu.github.io/ryuddi-site/works.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="作品一覧 - おはな研究所">
+  <meta property="og:description" content="季節と遊ぶように素材と向き合い、形を生む作品のギャラリー。">
+  <meta property="og:image" content="https://ryujikoyasu.github.io/ryuddi-site/images/works/ohana-ike-kotori-mori.jpg">
+  <meta name="theme-color" content="#fcfaf7">
+  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="icons/ohana-mandala.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/logo-192.png">
+  <link rel="mask-icon" href="icons/ohana-mandala.svg" color="#8E354A">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">コンテンツへスキップ</a>
+  <div class="cursor"></div>
+
+  <header id="site-header" role="banner"></header>
+
+  <main id="main-content">
+    <!-- Section: 作品ギャラリー（Atlas） -->
+    <section id="works" class="creation-section">
+      <div class="content-panel">
+        <div class="section-title-wrapper">
+          <h2 class="section-title">作品</h2>
+          <p class="section-subtitle">季節と遊ぶように、素材と向き合い、形を生み出しています</p>
+        </div>
+
+        <h3 class="section-subhead">一覧</h3>
+        <section id="atlas" class="atlas-section">
+          <div class="atlas-controls">
+            <button class="chip" data-toggle-advanced aria-pressed="false">詳細フィルタ</button>
+            <div class="filters-advanced" hidden>
+              <div class="chips regions" aria-label="地域で見る">
+                <button class="chip active" data-filter-region="all">すべて</button>
+                <button class="chip" data-filter-region="doto">道東</button>
+                <button class="chip" data-filter-region="koinzemi">小院瀬見</button>
+              </div>
+              <div class="chips methods" aria-label="カテゴリーで見る">
+                <button class="chip" data-filter-tag="wear">衣</button>
+                <button class="chip" data-filter-tag="space">空間</button>
+              </div>
+              <div class="chips seasons" aria-label="季節で見る">
+                <button class="chip" data-filter-season="spring" aria-pressed="false">春</button>
+                <button class="chip" data-filter-season="summer" aria-pressed="false">夏</button>
+                <button class="chip" data-filter-season="autumn" aria-pressed="false">秋</button>
+                <button class="chip" data-filter-season="winter" aria-pressed="false">冬</button>
+              </div>
+              <div class="chips authors" aria-label="作者で見る">
+                <button class="chip" data-filter-author="ryu" aria-pressed="false">りゅう</button>
+                <button class="chip" data-filter-author="mi" aria-pressed="false">みー</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Atlas grid (data-driven) -->
+          <div class="atlas-grid" id="works-list">
+            <div style="grid-column:1/-1;color:#777;">読み込み中…</div>
+          </div>
+          
+          <!-- デフォルト状態で衣が抑制されていることを示す控えめなヒント（グリッドの下に表示） -->
+          <div id="atlas-more-hint" class="atlas-more-hint" hidden>
+            <button type="button" class="more-wear-btn" data-more-wear aria-label="衣の作品をリスト表示">
+              <span class="arrow" aria-hidden="true">⌄</span>
+              <span class="label-text">もっと見る</span>
+            </button>
+          </div>
+        </section>
+        <!-- 抑制された衣の作品をリスト表示する領域（クリックで展開） -->
+        <section id="atlas-more-list" class="atlas-more-list" hidden>
+          <div class="atlas-more-grid"></div>
+          <div class="atlas-more-actions">
+            <button type="button" class="more-wear-close-btn" data-more-close aria-label="リストを閉じる">
+              <span class="arrow" aria-hidden="true">⌃</span>
+              <span class="label-text">閉じる</span>
+            </button>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- Techniques/Projects Hub: 技法・プロジェクトのハブ -->
+    <section id="techniques" class="creation-section">
+      <div class="content-panel">
+        <div class="section-title-wrapper">
+          <h2 class="section-title">技法・プロジェクト</h2>
+          <p class="section-subtitle">作品を支える手法</p>
+        </div>
+        <div class="grid-container">
+          <a class="grid-item" href="works/kusabana.html">
+            <img src="images/works/kusabana-taku.jpg" alt="草花拓" loading="lazy" decoding="async">
+            <div class="item-overlay"><h3>草花拓</h3><p>布に季節の形を転写する技法</p></div>
+          </a>
+          <a class="grid-item" href="works/kusaki-zome.html">
+            <img src="images/techniques/kusaki-zome/karamushi/3.png" alt="草木染" loading="lazy" decoding="async">
+            <div class="item-overlay"><h3>草木染</h3><p>植物由来の色を布に宿す総覧（事例あり）</p></div>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+    async function renderAllWorks(){
+      const root = document.getElementById('works-list');
+      if (!root) return;
+      try {
+        const base = new URL(document.currentScript?.src || 'works.html', document.baseURI).pathname.replace(/\/[^\/]*$/, '/');
+        const res = await fetch(base + 'content/projects/index.json', { credentials: 'same-origin' });
+        const data = await res.json();
+        const items = (data.projects||[]);
+        root.innerHTML = '';
+        const fallbackThumb = 'content/projects/sample_project/thumb.svg';
+        const videoThumbSrc = {
+          'shishi-odoshi': 'content/projects/季節、土地とともに生きる/cases/shishi-odoshi/video.mp4',
+          'ohana-ike': 'content/projects/季節、土地とともに生きる/cases/ohana-ike/video.mp4'
+        };
+        items.forEach(p=>{
+          const a = document.createElement('a'); a.className = 'atlas-item'; a.href = p.path || '#';
+          const video = videoThumbSrc[p.id];
+          const media = video ? `
+            <video muted autoplay loop playsinline preload="metadata">
+              <source src="${video}" type="video/mp4">
+            </video>
+          ` : `
+            <img src="${p.thumbnail || fallbackThumb}" alt="${p.title}" loading="lazy" decoding="async">
+          `;
+          a.innerHTML = `
+            <div class="meta">${(p.category||[]).join(' / ')}</div>
+            ${media}
+            <div class="label">${p.title}</div>
+          `;
+          root.appendChild(a);
+        });
+      } catch(e) {
+        root.innerHTML = '<div style="grid-column:1/-1;color:#b00;">読み込みに失敗しました</div>';
+      }
+    }
+    document.addEventListener('DOMContentLoaded', renderAllWorks);
+  </script>
+  <script src="script.js"></script>
+  <footer>
+    <div class="content-panel">
+      <p>おはな研究所への葉書は、このアドレスへ。</p>
+      <a href="mailto:ryuddi0wani@gmail.com">ryuddi0wani@gmail.com</a>
+      <div class="copyright">© 2025 おはな研究所</div>
+    </div>
+  </footer>
+</body>
+</html>

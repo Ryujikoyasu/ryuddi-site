@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8b5e34"/>
+      <stop offset="1" stop-color="#6f4e2f"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" stroke="#6f4e2f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- handle (vine-like) -->
+    <path d="M16 26c3-10 11-18 16-18s13 8 16 18"/>
+    <!-- rim -->
+    <rect x="8" y="26" width="48" height="8" rx="4" ry="4" fill="url(#g)"/>
+    <!-- basket body -->
+    <path d="M12 34c2 14 8 22 20 22s18-8 20-22H12z" fill="url(#g)"/>
+    <!-- weave (diagonal) -->
+    <path d="M18 36l10 12M26 36l10 12M34 36l10 12M22 36l-8 10M30 36l-8 10M38 36l-8 10M46 36l-8 10" opacity=".6"/>
+  </g>
+</svg>
+

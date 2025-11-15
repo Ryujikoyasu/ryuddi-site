@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>プロジェクト - RYUDDI Portfolio</title>
+  <meta name="description" content="テーマごとに作品群をまとめたポートフォリオ。畑ロボット（2023）、山・稲作文化（2024）、季節・土地とともに生きる（2025）。">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#fcfaf7">
+  <link rel="canonical" href="https://ryujikoyasu.github.io/ryuddi-site/projects.html">
+  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="icons/ohana-mandala.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/logo-192.png">
+  <link rel="mask-icon" href="icons/ohana-mandala.svg" color="#8E354A">
+  <style>
+    .projects-hero { padding: 64px 20px 20px; text-align: center; }
+    .projects-hero h1 { font-size: 32px; margin: 0 0 8px; }
+    .projects-hero p { color: #5b5b5b; margin: 4px 0; }
+    .theme-section { padding: 28px 16px; }
+    .theme-header { max-width: 960px; margin: 0 auto 16px; }
+    .theme-title { font-size: 22px; margin: 0 0 6px; }
+    .theme-desc { color: #6b6b6b; margin: 0; }
+    .projects-grid { display: grid; grid-template-columns: repeat(1, minmax(0,1fr)); gap: 16px; max-width: 1080px; margin: 0 auto; }
+    @media (min-width: 640px){ .projects-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+    @media (min-width: 960px){ .projects-grid { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+    .card { display:block; background:#fff; border:1px solid #eee; border-radius:12px; overflow:hidden; transition:transform .15s ease, box-shadow .15s ease; }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,.06); }
+    .card-fig { aspect-ratio: 4/3; background:#f3f3f3; display:flex; align-items:center; justify-content:center; }
+    .card-fig img { width:100%; height:100%; object-fit:cover; display:block; }
+    .card-body { padding: 12px 14px 14px; }
+    .card-title { font-size: 16px; margin: 0 0 4px; }
+    .card-meta { font-size: 12px; color:#777; }
+    .card-lead { font-size: 13px; color:#4a4a4a; margin: 6px 0 0; line-height: 1.5; }
+    .media-chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+    .media-chips .chip { font-size: 11px; padding:4px 8px; border:1px solid #e5e5e5; border-radius:999px; background:#fafafa; }
+    /* Scrollytelling flow (pinned timeline) */
+    .flow-wrap { position: relative; height: calc(100vh * var(--steps, 3)); }
+    .flow-wrap.reduce { height: auto; }
+    .flow-pin { position: sticky; top: 0; height: 100vh; overflow: hidden; background: #fff; border-bottom: 1px solid #eee; }
+    .flow-stage { position: relative; width: 100%; height: 100%; }
+    .flow-slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 24px 16px; opacity: 0; transform: translateY(24px); transition: opacity .5s ease, transform .5s ease; }
+    .flow-slide.is-active { opacity: 1; transform: translateY(0); }
+    .flow-card { max-width: 720px; width: 100%; background: #fff; border: 1px solid #eee; border-radius: 16px; padding: 16px 18px 14px; box-shadow: 0 10px 30px rgba(0,0,0,.04); }
+    .flow-title { margin: 0 0 6px; font-size: 18px; }
+    .flow-text { margin: 0; color:#4a4a4a; line-height: 1.75; font-size: 14px; }
+    .flow-dots { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); display:flex; flex-direction:column; gap:8px; }
+    .flow-dot { width:10px; height:10px; border-radius:50%; background:#e5e5e5; border:2px solid #fff; box-shadow:0 0 0 1px #ddd; }
+    .flow-dot.active { background:#9ca3af; }
+  </style>
+  <script>
+    async function loadProjects(){
+      const container = document.getElementById('themes');
+      const placeholder = document.getElementById('themes-loading');
+      try {
+        const base = new URL(document.currentScript?.src || 'projects.html', document.baseURI).pathname.replace(/\/[^\/]*$/, '/');
+        const res = await fetch(base + 'content/projects/index.json', { credentials: 'same-origin' });
+        if (!res.ok) throw new Error('Failed to load index.json');
+        const data = await res.json();
+
+        // Theme metadata (editable via content/projects/themes.json later)
+        const themes = [
+          { id: '畑ロボット', year: 2023, title: '畑ロボット', desc: '農と暮らしから立ち上がるロボット群。ローカル知と実装の往復。' },
+          { id: '山、稲作文化', year: 2024, title: '山、稲作文化', desc: '地形と水、稲作の所作。土地の記憶とものづくり。' },
+          { id: '季節、土地とともに生きる', year: 2025, title: '季節、土地とともに生きる', desc: '季節の変化と素材の呼吸に同調する試作と空間。' }
+        ];
+
+        // Normalize and group
+        const itemsRaw = (data.projects||[]).map(p=>({
+          id: p.id,
+          title: p.title,
+          year: p.year,
+          theme: p.theme || p.parentTheme || '',
+          featured: !!p.featured,
+          lead: p.lead || '',
+          media: p.media || [],
+          category: p.category || [],
+          thumbnail: p.thumbnail,
+          path: p.path
+        }));
+        // Projects page is curated: show only featured
+        const items = itemsRaw.filter(p=> p.featured);
+
+        // If theme is missing, try to infer from id
+        const infer = (id)=>{
+          if (!id) return '';
+          if (id.includes('robot')) return '畑ロボット';
+          return '';
+        };
+        items.forEach(p=>{ if (!p.theme) p.theme = infer(p.id); });
+
+        // Group by theme id
+        const byTheme = new Map();
+        items.forEach(p=>{
+          const t = p.theme || 'その他';
+          if (!byTheme.has(t)) byTheme.set(t, []);
+          byTheme.get(t).push(p);
+        });
+
+        // Render in theme order
+        container.innerHTML = '';
+        const relData = await loadRelations();
+        themes.forEach(t=>{
+          const list = (byTheme.get(t.id) || []).filter(p=> p.featured);
+          if (!list.length) return;
+          const section = document.createElement('section');
+          section.className = 'theme-section';
+          const head = document.createElement('div');
+          head.className = 'theme-header';
+          head.innerHTML = `<h2 class="theme-title">${t.year}｜${t.title}</h2><p class="theme-desc">${t.desc}</p>`;
+          section.appendChild(head);
+          const grid = document.createElement('div');
+          grid.className = 'projects-grid';
+          const fallbackThumb = 'content/projects/sample_project/thumb.svg';
+          list.forEach(p=>{
+            const a = document.createElement('a');
+            a.className = 'card';
+            a.href = p.path || '#';
+            a.innerHTML = `
+              <div class="card-fig">${p.thumbnail ? `<img src="${p.thumbnail}" alt="${p.title}">` : `<img src="${fallbackThumb}" alt="${p.title}">`}</div>
+              <div class="card-body">
+                <h3 class="card-title">${p.title||''}</h3>
+                <div class="card-meta">${(p.year||'')}${(p.category&&p.category.length)? ' ・ ' + p.category.join(', ') : ''}</div>
+                ${p.lead ? `<p class="card-lead">${p.lead}</p>` : ''}
+                ${p.media && p.media.length ? `<div class="media-chips">${p.media.map(m=>`<span class="chip">${m}</span>`).join('')}</div>` : ''}
+              </div>
+            `;
+            grid.appendChild(a);
+          });
+          section.appendChild(grid);
+          if (relData && list.length){
+            const rel = buildThemeRelations(list, relData);
+            if (rel.techs.length){
+              const relBox = document.createElement('div');
+              relBox.style.maxWidth = '960px';
+              relBox.style.margin = '12px auto 0';
+              relBox.innerHTML = `<div style="font-size:13px;color:#666;margin:6px 0;">関係の糸（共有する技法）</div>`;
+              const chips = document.createElement('div');
+              chips.style.display = 'flex';
+              chips.style.flexWrap = 'wrap';
+              chips.style.gap = '8px';
+              rel.techs.forEach(tk=>{
+                const b = document.createElement('button');
+                b.className = 'chip'; b.type = 'button';
+                b.textContent = `${tk.label} (${tk.count})`;
+                b.addEventListener('click', ()=> openRelated(rel, tk.key, section));
+                chips.appendChild(b);
+              });
+              relBox.appendChild(chips);
+              const relList = document.createElement('div');
+              relList.className = 'projects-grid';
+              relList.style.marginTop = '10px';
+              relList.setAttribute('data-rel-list', '');
+              relBox.appendChild(relList);
+              section.appendChild(relBox);
+            }
+          }
+          container.appendChild(section);
+        });
+      } catch (e) {
+        console.warn(e);
+        const err = document.createElement('p');
+        err.textContent = 'プロジェクトの読み込みに失敗しました。';
+        container.innerHTML = '';
+        container.appendChild(err);
+      } finally {
+        if (placeholder) placeholder.remove();
+        // Init any shared JS behaviors after dynamic render
+        try { window.__initMediaGalleries && window.__initMediaGalleries(); } catch(e){}
+      }
+    }
+    document.addEventListener('DOMContentLoaded', loadProjects);
+
+    // Pinned vertical flow (Apple-like scrollytelling)
+    function initProjectFlow(){
+      const wrap = document.getElementById('project-flow');
+      if (!wrap) return;
+      const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce){ wrap.classList.add('reduce'); return; }
+      const slides = Array.from(wrap.querySelectorAll('.flow-slide'));
+      const dots = Array.from(wrap.querySelectorAll('.flow-dot'));
+      const steps = slides.length;
+      function onScroll(){
+        const rect = wrap.getBoundingClientRect();
+        const total = Math.max(1, wrap.offsetHeight - window.innerHeight);
+        const scrolled = Math.min(Math.max(-rect.top, 0), total);
+        const t = scrolled / total; // 0..1
+        const idx = Math.min(steps-1, Math.floor(t * steps + 1e-6));
+        slides.forEach((el,i)=> el.classList.toggle('is-active', i===idx));
+        dots.forEach((d,i)=> d.classList.toggle('active', i===idx));
+      }
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+    }
+    document.addEventListener('DOMContentLoaded', initProjectFlow);
+
+    // Pinned vertical flow (Apple-like scrollytelling)
+    function initProjectFlow(){
+      const wrap = document.getElementById('project-flow');
+      if (!wrap) return;
+      const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce){ wrap.classList.add('reduce'); return; }
+      const slides = Array.from(wrap.querySelectorAll('.flow-slide'));
+      const dots = Array.from(wrap.querySelectorAll('.flow-dot'));
+      const steps = slides.length;
+      function onScroll(){
+        const rect = wrap.getBoundingClientRect();
+        const total = Math.max(1, wrap.offsetHeight - window.innerHeight);
+        const scrolled = Math.min(Math.max(-rect.top, 0), total);
+        const t = scrolled / total; // 0..1
+        const idx = Math.min(steps-1, Math.floor(t * steps + 0.00001));
+        slides.forEach((el,i)=> el.classList.toggle('is-active', i===idx));
+        dots.forEach((d,i)=> d.classList.toggle('active', i===idx));
+      }
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+    }
+    document.addEventListener('DOMContentLoaded', initProjectFlow);
+
+    async function loadRelations(){
+      try {
+        let path = 'data/works-manifest.json';
+        const p = location.pathname; const idx = p.indexOf('/works/');
+        if (idx !== -1) path = p.slice(0, idx+1) + 'data/works-manifest.json';
+        const res = await fetch(path, { credentials: 'same-origin' });
+        if (!res.ok) return null; return res.json();
+      } catch(e){ return null; }
+    }
+    function buildThemeRelations(themeItems, manifest){
+      const urls = new Set((themeItems||[]).map(i=> i.path).filter(Boolean));
+      const relWorks = (manifest||[]).filter(w=> urls.has(w.url));
+      const byTech = new Map();
+      relWorks.forEach(w=> (w.techs||[]).forEach(t=>{ if (!byTech.has(t)) byTech.set(t, []); byTech.get(t).push(w); }));
+      const techs = Array.from(byTech.entries()).map(([k, arr])=> ({ key:k, label: k.replace('kusaki:', '草木染：').replace('kusabana','草花拓'), count: arr.length })).sort((a,b)=> b.count-a.count);
+      return { techs, byTech };
+    }
+    function openRelated(rel, techKey, section){
+      if (!section) return;
+      const list = rel.byTech.get(techKey) || [];
+      const holder = section.querySelector('[data-rel-list]');
+      if (!holder) return;
+      holder.innerHTML = '';
+      const fallbackThumb = 'content/projects/sample_project/thumb.svg';
+      list.forEach(w=>{
+        const a = document.createElement('a'); a.className = 'card'; a.href = w.url;
+        a.innerHTML = `
+          <div class="card-fig"><img src="${w.cover || fallbackThumb}" alt="${w.title}"></div>
+          <div class="card-body"><h3 class="card-title">${w.title}</h3></div>
+        `;
+        holder.appendChild(a);
+      });
+      try { window.__initMediaGalleries && window.__initMediaGalleries(); } catch(e){}
+    }
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">コンテンツへスキップ</a>
+  <div class="cursor"></div>
+  <header id="site-header" role="banner"></header>
+
+  <main id="main-content">
+    <section class="projects-hero">
+      <h1>テーマで巡るポートフォリオ</h1>
+      <p>モチーフから世界観が立ち上がる制作の軌跡。</p>
+    </section>
+    <section aria-label="プロジェクトの流れ" id="project-flow" class="flow-wrap" style="--steps:3;">
+      <div class="flow-pin">
+        <div class="flow-stage">
+          <article class="flow-slide is-active" data-step="0">
+            <div class="flow-card">
+              <h3 class="flow-title">2023｜畑ロボット</h3>
+              <p class="flow-text">農と暮らしの現場から要件を抽出し、ロボティクスを“暮らしの道具”へ引き寄せる。身体拡張の最小構成を探る。</p>
+            </div>
+          </article>
+          <article class="flow-slide" data-step="1">
+            <div class="flow-card">
+              <h3 class="flow-title">2024｜山・稲作文化</h3>
+              <p class="flow-text">山に入る。地形・水・稲作の所作に同調し、道具観を更新。土地の記憶に触れ、ものづくりの重心が移動する。</p>
+            </div>
+          </article>
+          <article class="flow-slide" data-step="2">
+            <div class="flow-card">
+              <h3 class="flow-title">2025｜季節、土地とともに生きる</h3>
+              <p class="flow-text">季節と土地の呼吸に同調する。衣・空間・音と光を編み、暮らしそのものをデザインとして立ち上げる。</p>
+            </div>
+          </article>
+          <div class="flow-dots" aria-hidden="true">
+            <span class="flow-dot active"></span>
+            <span class="flow-dot"></span>
+            <span class="flow-dot"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div id="themes-loading" class="content-panel" style="text-align:center; color:#777;">読み込み中…</div>
+    <div id="themes"></div>
+  </main>
+
+  <script src="script.js?v=2"></script>
+</body>
+</html>
