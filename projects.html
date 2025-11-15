@@ -40,9 +40,10 @@
     .flow-wrap.reduce { height: auto; }
     .flow-pin { position: sticky; top: 0; height: 100vh; overflow: hidden; background: #fff; border-bottom: 1px solid #eee; }
     .flow-stage { position: relative; width: 100%; height: 100%; }
-    .flow-slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 24px 16px; opacity: 0; transform: translateY(24px); transition: opacity .5s ease, transform .5s ease; }
-    .flow-slide.is-active { opacity: 1; transform: translateY(0); }
-    .flow-card { max-width: 720px; width: 100%; background: #fff; border: 1px solid #eee; border-radius: 16px; padding: 16px 18px 14px; box-shadow: 0 10px 30px rgba(0,0,0,.04); }
+    .flow-slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 24px 16px; opacity: 0; transform: translateY(24px) scale(.985); filter: blur(1px); transition: opacity .5s ease, transform .5s ease, filter .5s ease; }
+    .flow-slide.is-active { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    .flow-card { max-width: 760px; width: 100%; background: #fff; border: 1px solid #eee; border-radius: 16px; padding: 20px 22px 18px; box-shadow: 0 18px 40px rgba(0,0,0,.06); }
+    .flow-dots [data-goto]{ cursor: pointer; }
     .flow-title { margin: 0 0 6px; font-size: 18px; }
     .flow-text { margin: 0; color:#4a4a4a; line-height: 1.75; font-size: 14px; }
     .flow-dots { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); display:flex; flex-direction:column; gap:8px; }
@@ -181,18 +182,39 @@
       const slides = Array.from(wrap.querySelectorAll('.flow-slide'));
       const dots = Array.from(wrap.querySelectorAll('.flow-dot'));
       const steps = slides.length;
+      let lastIdx = 0; let snapTimer = 0;
       function onScroll(){
         const rect = wrap.getBoundingClientRect();
         const total = Math.max(1, wrap.offsetHeight - window.innerHeight);
         const scrolled = Math.min(Math.max(-rect.top, 0), total);
-        const t = scrolled / total; // 0..1
-        const idx = Math.min(steps-1, Math.floor(t * steps + 1e-6));
-        slides.forEach((el,i)=> el.classList.toggle('is-active', i===idx));
-        dots.forEach((d,i)=> d.classList.toggle('active', i===idx));
+        const stepH = total / Math.max(1, steps-1);
+        const idx = Math.min(steps-1, Math.round(scrolled / Math.max(1, stepH)));
+        if (idx !== lastIdx){
+          lastIdx = idx;
+          slides.forEach((el,i)=> el.classList.toggle('is-active', i===idx));
+          dots.forEach((d,i)=> d.classList.toggle('active', i===idx));
+        }
+        // gentle snap after user pause
+        clearTimeout(snapTimer);
+        snapTimer = setTimeout(()=>{
+          const wrapTop = wrap.getBoundingClientRect().top + (window.pageYOffset||window.scrollY||0);
+          const y = wrapTop + idx * stepH;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }, 140);
       }
       onScroll();
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', onScroll);
+
+      // dot navigation
+      dots.forEach(d=> d.addEventListener('click', ()=>{
+        const go = parseInt(d.getAttribute('data-goto')||'0',10)||0;
+        const total = Math.max(1, wrap.offsetHeight - window.innerHeight);
+        const stepH = total / Math.max(1, steps-1);
+        const wrapTop = wrap.getBoundingClientRect().top + (window.pageYOffset||window.scrollY||0);
+        const y = wrapTop + go * stepH;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }));
     }
     document.addEventListener('DOMContentLoaded', initProjectFlow);
 
@@ -287,10 +309,10 @@
               <p class="flow-text">季節と土地の呼吸に同調する。衣・空間・音と光を編み、暮らしそのものをデザインとして立ち上げる。</p>
             </div>
           </article>
-          <div class="flow-dots" aria-hidden="true">
-            <span class="flow-dot active"></span>
-            <span class="flow-dot"></span>
-            <span class="flow-dot"></span>
+          <div class="flow-dots" aria-hidden="false" role="tablist">
+            <span class="flow-dot active" data-goto="0" role="tab" aria-label="2023"></span>
+            <span class="flow-dot" data-goto="1" role="tab" aria-label="2024"></span>
+            <span class="flow-dot" data-goto="2" role="tab" aria-label="2025"></span>
           </div>
         </div>
       </div>
