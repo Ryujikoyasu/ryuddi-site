@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>絵本 - プロジェクト</title>
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#fcfaf7">
+  <link rel="stylesheet" href="../style.css?v=2">
+  <link rel="icon" type="image/svg+xml" href="../icons/ohana-mandala.svg">
+  <style>
+    .proj-wrap { max-width: 960px; margin: 32px auto; padding: 0 16px; }
+    .proj-hero { aspect-ratio: 16/9; background:#f2f2f2; border-radius: 12px; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+    .proj-hero img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .proj-meta { color:#666; margin: 10px 0 0; }
+    .links { margin-top: 12px; display:flex; flex-wrap:wrap; gap:8px; }
+    .links a { display:inline-flex; align-items:center; gap:6px; padding:8px 10px; border:1px solid #e5e5e5; border-radius:999px; font-size:13px; background:#fafafa; text-decoration:none; }
+    .pdf-view { margin-top: 12px; border:1px solid #eee; border-radius: 12px; overflow:hidden; }
+    .gallery { display:grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap:8px; margin-top:12px; }
+    .gallery img { width:100%; border-radius: 10px; display:block; object-fit:cover; }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', ()=>{
+      // 追加メディアがあれば下の配列に追記
+      const pages = [
+        // '../content/projects/畑ロボット/picture-book/pages/1.jpg',
+        // '../content/projects/畑ロボット/picture-book/pages/2.jpg',
+      ];
+      const gal = document.getElementById('gallery');
+      if (gal && pages.length){
+        gal.innerHTML = '';
+        pages.forEach(src=>{
+          const i = document.createElement('img'); i.loading='lazy'; i.decoding='async'; i.src=src; gal.appendChild(i);
+        });
+      }
+    });
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">コンテンツへスキップ</a>
+  <div class="cursor"></div>
+  <header id="site-header" role="banner"></header>
+  <main id="main-content" class="proj-wrap">
+    <h1>絵本</h1>
+    <p class="proj-meta">2023｜畑ロボット</p>
+    <div class="proj-hero">
+      <img alt="絵本" src="../content/projects/畑ロボット/picture-book/images/cover.jpg" onerror="this.src='../content/projects/sample_project/thumb.svg'">
+    </div>
+    <p style="margin-top:16px;">畑での気づきや季節の息づかいを、小さな物語に織り込んだ絵本の制作。</p>
+    <div id="video-grid" class="video-grid" aria-label="動画"></div>
+    <div class="pdf-view">
+      <!-- PDF 埋め込み（存在すれば表示）。無ければ下のリンクからダウンロード -->
+      <object data="../content/projects/畑ロボット/picture-book/絵本.pdf" type="application/pdf" width="100%" height="640">
+        <object data="../content/projects/畑ロボット/picture-book/picture-book.pdf" type="application/pdf" width="100%" height="640">
+          <div style="padding:12px;">
+            <p>PDFを表示できません。以下のリンクから開いてください。</p>
+            <p>
+              <a href="../content/projects/畑ロボット/picture-book/絵本.pdf" target="_blank" rel="noopener">絵本.pdf を開く</a>
+              ／
+              <a href="../content/projects/畑ロボット/picture-book/picture-book.pdf" target="_blank" rel="noopener">picture-book.pdf を開く</a>
+            </p>
+          </div>
+        </object>
+      </object>
+    </div>
+    <div id="gallery" class="gallery"></div>
+  </main>
+  <script src="../script.js?v=2"></script>
+  <script>
+    (function(){
+      const videos = [ { url: 'https://www.youtube.com/watch?v=AcIjtXj8ECQ', label: '絵本の動画版' } ];
+      const idFrom = (u)=>{ try{ const url=new URL(u); if(url.hostname==='youtu.be') return url.pathname.slice(1); const id=url.searchParams.get('v'); return id||''; }catch(e){ return ''; } };
+    .video-grid { margin-top: 12px; display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:10px; }
+    .video-card { position: relative; aspect-ratio: 16/9; border:1px solid #e5e5e5; border-radius: 12px; overflow: hidden; background:#000; }
+    .video-card img { width:100%; height:100%; object-fit: cover; display:block; opacity:.9; transition: transform .2s ease, opacity .2s ease; }
+    .video-card:hover img { transform: scale(1.02); opacity:1; }
+    .video-cap { position:absolute; left:0; right:0; bottom:0; padding:8px 10px; font-size:12px; color:#fff; background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0)); }
+      const grid = document.getElementById('video-grid'); if (!grid) return;
+      videos.forEach(v=>{ const id = idFrom(v.url); const thumb = id?`https://img.youtube.com/vi/${id}/hqdefault.jpg`:'';
+        const a = document.createElement('a'); a.className='video-card'; a.href=v.url; a.target='_blank'; a.rel='noopener';
+        a.innerHTML = thumb?`<img src="${thumb}" alt="${v.label}"><div class="video-cap">${v.label}</div>`:`<div class="video-cap">${v.label}</div>`;
+        grid.appendChild(a);
+      });
+    })();
+  </script>
+</body>
+</html>

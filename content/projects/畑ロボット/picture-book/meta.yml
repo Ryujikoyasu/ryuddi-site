@@ -1,0 +1,14 @@
+title: 絵本
+year: 2023
+theme: 畑ロボット
+category:
+  - book
+media:
+  cover: images/cover.jpg # 表紙画像
+  pages:
+    # - pages/1.jpg
+    # - pages/2.jpg
+    # - pages/3.jpg
+notes: |
+  畑の気づきや季節の息づかいを小さな物語として綴った絵本。
+

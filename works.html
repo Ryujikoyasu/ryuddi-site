@@ -120,24 +120,43 @@
         const fallbackThumb = 'content/projects/sample_project/thumb.svg';
         const videoThumbSrc = {
           'shishi-odoshi': 'content/projects/季節、土地とともに生きる/cases/shishi-odoshi/video.mp4',
-          'ohana-ike': 'content/projects/季節、土地とともに生きる/cases/ohana-ike/video.mp4'
+          'ohana-ike': 'content/projects/季節、土地とともに生きる/cases/ohana-ike/video.mp4',
+          'vernacular-rice-robot': 'content/projects/山、稲作文化/vernacular-rice-robot/images/inasakurobo.mov',
+          'ohana-robot': 'content/projects/畑ロボット/ohana-robot/images/ハイライトshort.mp4'
         };
+        // group by year
+        const byYear = new Map();
         items.forEach(p=>{
-          const a = document.createElement('a'); a.className = 'atlas-item'; a.href = p.path || '#';
-          const video = videoThumbSrc[p.id];
-          const media = video ? `
-            <video muted autoplay loop playsinline preload="metadata">
-              <source src="${video}" type="video/mp4">
-            </video>
-          ` : `
-            <img src="${p.thumbnail || fallbackThumb}" alt="${p.title}" loading="lazy" decoding="async">
-          `;
-          a.innerHTML = `
-            <div class="meta">${(p.category||[]).join(' / ')}</div>
-            ${media}
-            <div class="label">${p.title}</div>
-          `;
-          root.appendChild(a);
+          const y = p.year || 'その他';
+          if (!byYear.has(y)) byYear.set(y, []);
+          byYear.get(y).push(p);
+        });
+        const years = Array.from(byYear.keys()).sort((a,b)=> Number(b)-Number(a));
+        const panel = root.parentElement;
+        // replace placeholder grid by per-year blocks
+        root.remove();
+        years.forEach(year=>{
+          const title = document.createElement('h3');
+          title.className = 'section-subhead';
+          title.textContent = String(year);
+          panel.appendChild(title);
+          const grid = document.createElement('div'); grid.className = 'atlas-grid';
+          (byYear.get(year)||[]).forEach(p=>{
+            const a = document.createElement('a'); a.className = 'atlas-item'; a.href = p.path || '#';
+            const video = videoThumbSrc[p.id];
+            const media = video ? `
+              <video muted autoplay loop playsinline preload=\"metadata\">\n                <source src=\"${video}\" type=\"video/mp4\">\n              </video>
+            ` : `
+              <img src=\"${p.thumbnail || fallbackThumb}\" alt=\"${p.title}\" loading=\"lazy\" decoding=\"async\">
+            `;
+            a.innerHTML = `
+              <div class=\"meta\">${(p.category||[]).join(' / ')}</div>
+              ${media}
+              <div class=\"label\">${p.title}</div>
+            `;
+            grid.appendChild(a);
+          });
+          panel.appendChild(grid);
         });
       } catch(e) {
         root.innerHTML = '<div style="grid-column:1/-1;color:#b00;">読み込みに失敗しました</div>';

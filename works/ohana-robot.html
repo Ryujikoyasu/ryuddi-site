@@ -11,8 +11,17 @@
   <style>
     .proj-wrap { max-width: 960px; margin: 32px auto; padding: 0 16px; }
     .proj-hero { aspect-ratio: 16/9; background:#f2f2f2; border-radius: 12px; overflow:hidden; display:flex; align-items:center; justify-content:center; }
-    .proj-hero img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .proj-hero img, .proj-hero video{ width:100%; height:100%; object-fit:cover; display:block; }
     .proj-meta { color:#666; margin: 10px 0 0; }
+    .links { margin-top: 12px; display:flex; flex-wrap:wrap; gap:8px; }
+    .links a { display:inline-flex; align-items:center; gap:6px; padding:8px 10px; border:1px solid #e5e5e5; border-radius:999px; font-size:13px; background:#fafafa; text-decoration:none; }
+    .link-list { margin-top: 8px; padding-left: 18px; }
+    .link-list li { margin: 4px 0; }
+    .video-grid { margin-top: 12px; display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:10px; }
+    .video-card { position: relative; aspect-ratio: 16/9; border:1px solid #e5e5e5; border-radius: 12px; overflow: hidden; background:#000; }
+    .video-card img { width:100%; height:100%; object-fit: cover; display:block; opacity:.9; transition: transform .2s ease, opacity .2s ease; }
+    .video-card:hover img { transform: scale(1.02); opacity:1; }
+    .video-cap { position:absolute; left:0; right:0; bottom:0; padding:8px 10px; font-size:12px; color:#fff; background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0)); }
   </style>
 </head>
 <body>
@@ -23,11 +32,34 @@
     <h1>OHANA-ROBOT</h1>
     <p class="proj-meta">2023｜畑ロボット</p>
     <div class="proj-hero">
-      <img alt="OHANA-ROBOT" src="../content/projects/畑ロボット/ohana-robot/images/cover.jpg" onerror="this.src='../content/projects/sample_project/thumb.svg'">
+      <video muted autoplay loop playsinline preload="metadata">
+        <source src="../content/projects/畑ロボット/ohana-robot/images/ハイライトshort.mp4" type="video/mp4">
+      </video>
     </div>
     <p style="margin-top:16px;">農と暮らしの文脈から立ち上がる、ヴァナキュラー指向のロボット試作群。</p>
+    <div class="links">
+      <a href="https://ryujikoyasu.github.io/ohana-robot/" target="_blank" rel="noopener">プロジェクト専用ページ</a>
+    </div>
+    <div id="video-grid" class="video-grid" aria-label="動画"></div>
   </main>
   <script src="../script.js?v=2"></script>
+  <script>
+    (function(){
+      const videos = [
+        { url: 'https://www.youtube.com/watch?v=1lhgnbhsX1k', label: 'OHANA-ROBOT 1' },
+        { url: 'https://www.youtube.com/watch?v=7SOvMekOYkg', label: 'OHANA-ROBOT 2' },
+        { url: 'https://www.youtube.com/watch?v=4Tcgr7pxths', label: 'OHANA-ROBOT 3' },
+        { url: 'https://youtu.be/FwXkU45nr78', label: 'OHANA-ROBOT 4' },
+        { url: 'https://www.youtube.com/watch?v=n-nCcXnvAAI', label: '未踏での発表' },
+      ];
+      const idFrom = (u)=>{ try{ const url=new URL(u); if(url.hostname==='youtu.be') return url.pathname.slice(1); const id=url.searchParams.get('v'); return id||''; }catch(e){ return ''; } };
+      const grid = document.getElementById('video-grid'); if (!grid) return;
+      videos.forEach(v=>{ const id = idFrom(v.url); const thumb = id?`https://img.youtube.com/vi/${id}/hqdefault.jpg`:'';
+        const a = document.createElement('a'); a.className='video-card'; a.href=v.url; a.target='_blank'; a.rel='noopener';
+        a.innerHTML = thumb?`<img src="${thumb}" alt="${v.label}"><div class="video-cap">${v.label}</div>`:`<div class="video-cap">${v.label}</div>`;
+        grid.appendChild(a);
+      });
+    })();
+  </script>
 </body>
 </html>
-

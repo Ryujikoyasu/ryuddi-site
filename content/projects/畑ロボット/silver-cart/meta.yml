@@ -1,0 +1,15 @@
+title: 対話型シルバーカー
+year: 2023
+theme: 畑ロボット
+category:
+  - robotics
+  - assistive
+media:
+  cover: images/cover.jpg # ここにカバー画像を配置
+  gallery:
+    # - images/1.jpg
+    # - images/2.jpg
+    # - video/clip.mp4
+notes: |
+  歩行支援に「対話性」を持ち込む試作。環境/身体の状態に応じてふるまいが変わる設計を検討。
+

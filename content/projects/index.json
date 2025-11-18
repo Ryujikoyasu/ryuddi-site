@@ -13,6 +13,28 @@
       "path": "works/ohana-robot.html"
     },
     {
+      "id": "interactive-silver-cart",
+      "title": "対話型シルバーカー",
+      "year": 2023,
+      "theme": "畑ロボット",
+      "featured": false,
+      "media": ["アシスティブ", "対話", "センサ"],
+      "category": ["robotics", "assistive"],
+      "thumbnail": "",
+      "path": "works/silver-cart.html"
+    },
+    {
+      "id": "picture-book",
+      "title": "絵本",
+      "year": 2023,
+      "theme": "畑ロボット",
+      "featured": false,
+      "media": ["物語", "印刷", "造本"],
+      "category": ["book"],
+      "thumbnail": "",
+      "path": "works/picture-book.html"
+    },
+    {
       "id": "vernacular-rice-robot",
       "title": "ヴァナキュラーな稲作ロボット",
       "year": 2024,
@@ -21,7 +43,7 @@
       "lead": "地形・水・労働のリズムに同調するロボット。機能美ではなく、暮らしの可変性に溶ける道具としての構成。",
       "media": ["ロボティクス", "稲作", "地形読解", "道具設計"],
       "category": ["robotics", "agri"],
-      "thumbnail": "",
+      "thumbnail": "/content/projects/山、稲作文化/vernacular-rice-robot/images/_A749580.jpg",
       "path": "works/vernacular-rice-robot.html"
     },
     {
@@ -30,7 +52,7 @@
       "year": 2024,
       "theme": "山、稲作文化",
       "category": ["object"],
-      "thumbnail": "/content/projects/山、稲作文化/akebi-tengu/images/cover.jpg",
+      "thumbnail": "/content/projects/山、稲作文化/akebi-tengu/images/_A749585.jpg",
       "path": "works/akebi-tengu.html"
     },
     {
@@ -39,7 +61,7 @@
       "year": 2024,
       "theme": "山、稲作文化",
       "category": ["object"],
-      "thumbnail": "/content/projects/山、稲作文化/katamenyo/images/cover.jpg",
+      "thumbnail": "/content/projects/山、稲作文化/katamenyo/images/_A749576.jpg",
       "path": "works/katamenyo.html"
     },
     {

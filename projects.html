@@ -15,9 +15,9 @@
   <link rel="apple-touch-icon" sizes="180x180" href="icons/logo-192.png">
   <link rel="mask-icon" href="icons/ohana-mandala.svg" color="#8E354A">
   <style>
-    .projects-hero { padding: 64px 20px 20px; text-align: center; }
-    .projects-hero h1 { font-size: 32px; margin: 0 0 8px; }
-    .projects-hero p { color: #5b5b5b; margin: 4px 0; }
+    .projects-hero { position: sticky; top: 0; z-index: 10; padding: 18px 16px 14px; text-align: center; background: #fff; border-bottom: 1px solid #eee; }
+    .projects-hero h1 { font-size: 28px; margin: 0 0 4px; letter-spacing: .02em; }
+    .projects-hero p { color: #5b5b5b; margin: 0; font-size: 14px; }
     .theme-section { padding: 28px 16px; }
     .theme-header { max-width: 960px; margin: 0 auto 16px; }
     .theme-title { font-size: 22px; margin: 0 0 6px; }
@@ -35,25 +35,34 @@
     .card-lead { font-size: 13px; color:#4a4a4a; margin: 6px 0 0; line-height: 1.5; }
     .media-chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
     .media-chips .chip { font-size: 11px; padding:4px 8px; border:1px solid #e5e5e5; border-radius:999px; background:#fafafa; }
-    /* Scrollytelling flow (pinned timeline) */
-    .flow-wrap { position: relative; height: calc(100vh * var(--steps, 3)); }
+    /* Scrollytelling flow (compact, subtle) */
+    .flow-wrap { position: relative; height: calc(var(--flowH, 75vh) * var(--steps, 4)); margin: 12px 0 8px; }
     .flow-wrap.reduce { height: auto; }
-    .flow-pin { position: sticky; top: 0; height: 100vh; overflow: hidden; background: #fff; border-bottom: 1px solid #eee; }
-    .flow-stage { position: relative; width: 100%; height: 100%; }
-    .flow-slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 24px 16px; opacity: 0; transform: translateY(24px) scale(.985); filter: blur(1px); transition: opacity .5s ease, transform .5s ease, filter .5s ease; }
-    .flow-slide.is-active { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-    .flow-card { max-width: 760px; width: 100%; background: #fff; border: 1px solid #eee; border-radius: 16px; padding: 20px 22px 18px; box-shadow: 0 18px 40px rgba(0,0,0,.06); }
-    .flow-dots [data-goto]{ cursor: pointer; }
-    .flow-title { margin: 0 0 6px; font-size: 18px; }
-    .flow-text { margin: 0; color:#4a4a4a; line-height: 1.75; font-size: 14px; }
-    .flow-dots { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); display:flex; flex-direction:column; gap:8px; }
-    .flow-dot { width:10px; height:10px; border-radius:50%; background:#e5e5e5; border:2px solid #fff; box-shadow:0 0 0 1px #ddd; }
+    .flow-pin { position: sticky; top: var(--heroH, 80px); height: var(--flowH, 75vh); overflow: hidden; background: transparent; }
+    .flow-stage { position: relative; width: 100%; height: 100%; display:grid; grid-template-columns: minmax(240px, 520px) 1fr; gap: 16px; align-items:center; }
+    .flow-left { position: relative; z-index: 2; align-self:center; justify-self: start; padding-left: 16px; }
+    .flow-right { position: relative; z-index: 1; height: 100%; }
+    .flow-media { position:absolute; inset:0; border-radius: 14px; overflow:hidden; box-shadow: 0 8px 24px rgba(0,0,0,.06); }
+    .flow-media .group { position:absolute; inset:0; opacity:0; transition: opacity .5s ease; }
+    .flow-media .group.is-group-on { opacity:1; }
+    .flow-media .group > * { position:absolute; inset:0; width:100%; height:100%; object-fit: cover; opacity:0; transition: opacity .6s ease; }
+    .flow-media .group > *.is-on { opacity:.95; }
+    .flow-headlines { list-style:none; padding:0; margin:0 10px 10px 0; display:flex; flex-direction:column; gap:8px; }
+    .headline-item { font-size: 18px; letter-spacing:.01em; color:#222; opacity:.28; transition: opacity .25s ease, font-weight .25s ease; }
+    .headline-item .year { font-weight:600; margin-right: 8px; }
+    .headline-item.active { opacity: 1; font-weight:600; }
+    .flow-lead { margin:8px 0 0; font-size: 13px; color:#444; line-height: 1.7; max-width: 48ch; }
+    .flow-title { margin: 0 0 4px; font-size: 16px; }
+    .flow-text { margin: 0; color:#4a4a4a; line-height: 1.7; font-size: 13px; }
+    .flow-dots { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); display:flex; flex-direction:column; gap:8px; }
+    .flow-dot { width:8px; height:8px; border-radius:50%; background:#e5e5e5; border:2px solid #fff; box-shadow:0 0 0 1px #ddd; }
     .flow-dot.active { background:#9ca3af; }
   </style>
   <script>
     async function loadProjects(){
       const container = document.getElementById('themes');
       const placeholder = document.getElementById('themes-loading');
+      if (!container) return; // themes を表示しない構成なら何もしない
       try {
         const base = new URL(document.currentScript?.src || 'projects.html', document.baseURI).pathname.replace(/\/[^\/]*$/, '/');
         const res = await fetch(base + 'content/projects/index.json', { credentials: 'same-origin' });
@@ -173,15 +182,34 @@
     }
     document.addEventListener('DOMContentLoaded', loadProjects);
 
-    // Pinned vertical flow (Apple-like scrollytelling)
+    // Measure sticky hero height to offset the pinned flow nicely
+    function setHeroHeight(){
+      try{
+        const hero = document.querySelector('.projects-hero');
+        if (!hero) return;
+        const h = hero.offsetHeight || 0;
+        document.documentElement.style.setProperty('--heroH', h + 'px');
+      }catch(e){}
+    }
+    document.addEventListener('DOMContentLoaded', setHeroHeight);
+    window.addEventListener('resize', setHeroHeight);
+
+    // Pinned vertical flow (compact scrollytelling)
     function initProjectFlow(){
       const wrap = document.getElementById('project-flow');
       if (!wrap) return;
       const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reduce){ wrap.classList.add('reduce'); return; }
-      const slides = Array.from(wrap.querySelectorAll('.flow-slide'));
-      const dots = Array.from(wrap.querySelectorAll('.flow-dot'));
-      const steps = slides.length;
+      const heads = Array.from(wrap.querySelectorAll('.headline-item'));
+      const bgs = Array.from(wrap.querySelectorAll('.flow-bg .bg'));
+      const leadEl = wrap.querySelector('.flow-lead');
+      const leads = [
+        '畑で立ち上がる要件と、身体拡張としての道具観。',
+        '山に入り、地形・水・稲作の所作に同調する。',
+        '土地の呼吸とともに、衣・空間・光音を編む。',
+        '京都へ——次の土地で、連続のつづきへ。'
+      ];
+      const steps = heads.length;
       let lastIdx = 0; let snapTimer = 0;
       function onScroll(){
         const rect = wrap.getBoundingClientRect();
@@ -191,8 +219,9 @@
         const idx = Math.min(steps-1, Math.round(scrolled / Math.max(1, stepH)));
         if (idx !== lastIdx){
           lastIdx = idx;
-          slides.forEach((el,i)=> el.classList.toggle('is-active', i===idx));
-          dots.forEach((d,i)=> d.classList.toggle('active', i===idx));
+          heads.forEach((el,i)=> el.classList.toggle('active', i===idx));
+          bgs.forEach((el,i)=> el.classList.toggle('bg-active', i===idx));
+          if (leadEl) leadEl.textContent = leads[idx] || '';
         }
         // gentle snap after user pause
         clearTimeout(snapTimer);
@@ -205,40 +234,98 @@
       onScroll();
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', onScroll);
-
-      // dot navigation
-      dots.forEach(d=> d.addEventListener('click', ()=>{
-        const go = parseInt(d.getAttribute('data-goto')||'0',10)||0;
-        const total = Math.max(1, wrap.offsetHeight - window.innerHeight);
-        const stepH = total / Math.max(1, steps-1);
-        const wrapTop = wrap.getBoundingClientRect().top + (window.pageYOffset||window.scrollY||0);
-        const y = wrapTop + go * stepH;
-        window.scrollTo({ top: y, behavior: 'smooth' });
-      }));
     }
     document.addEventListener('DOMContentLoaded', initProjectFlow);
 
-    // Pinned vertical flow (Apple-like scrollytelling)
+    // Pinned vertical flow (left text + right media, continuous fade)
     function initProjectFlow(){
       const wrap = document.getElementById('project-flow');
       if (!wrap) return;
       const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reduce){ wrap.classList.add('reduce'); return; }
-      const slides = Array.from(wrap.querySelectorAll('.flow-slide'));
-      const dots = Array.from(wrap.querySelectorAll('.flow-dot'));
-      const steps = slides.length;
+      const heads = Array.from(wrap.querySelectorAll('.headline-item'));
+      const mediaRoot = document.getElementById('flow-media');
+      // Build multi-media groups per year (2023-2026)
+      const mediaGroups = [
+        [ // 2023
+          { t:'video', src:'content/projects/畑ロボット/ohana-robot/images/ハイライトshort.mp4', type:'video/mp4' }
+        ],
+        [ // 2024
+          { t:'video', src:'content/projects/山、稲作文化/vernacular-rice-robot/images/inasakurobo.mov', type:'video/quicktime' },
+          { t:'img', src:'content/projects/山、稲作文化/akebi-tengu/images/_A749585.jpg' },
+          { t:'img', src:'content/projects/山、稲作文化/akebi-tengu/images/_A749589.jpg' },
+          { t:'img', src:'content/projects/山、稲作文化/akebi-tengu/images/_A749596.jpg' },
+          { t:'img', src:'content/projects/山、稲作文化/katamenyo/images/_A749576.jpg' }
+        ],
+        [ // 2025
+          { t:'video', src:'content/projects/季節、土地とともに生きる/cases/ohana-ike/video.mp4', type:'video/mp4' },
+          { t:'video', src:'content/projects/季節、土地とともに生きる/cases/shishi-odoshi/video.mp4', type:'video/mp4' }
+        ],
+        [ // 2026
+          { t:'img', src:'content/projects/sample_project/thumb.svg' }
+        ]
+      ];
+      // Reset and construct DOM
+      mediaRoot.innerHTML = '';
+      const groupEls = mediaGroups.map(group=>{
+        const g = document.createElement('div'); g.className='group';
+        group.forEach(item=>{
+          if (item.t==='video'){
+            const v = document.createElement('video'); v.className='flow-vid'; v.muted=true; v.autoplay=true; v.loop=true; v.playsInline=true; v.preload='metadata';
+            const s = document.createElement('source'); s.src=item.src; if (item.type) s.type=item.type; v.appendChild(s);
+            g.appendChild(v);
+          } else {
+            const i = document.createElement('img'); i.className='flow-img'; i.src=item.src; i.alt=''; g.appendChild(i);
+          }
+        });
+        mediaRoot.appendChild(g); return g;
+      });
+      const groupFrame = new Array(mediaGroups.length).fill(0);
+      const leadEl = document.getElementById('flow-lead');
+      const leads = [
+        '畑で立ち上がる要件と、身体拡張としての道具観。フィールドの具体から、最小構成で応える。',
+        '山に入る。地形と水に同調し、稲作や民俗の所作から、道具観を更新していく。',
+        '季節と土地の呼吸に合わせ、衣・空間・光と音を編む。暮らしそのものが表現となる。',
+        '京都へ——土地を変え、連続の先で新たな編み直しへ。'
+      ];
+      const steps = heads.length;
+      let lastIdx = -1;
+      let activeIdx = 0;
+      function setActive(idx){
+        groupEls.forEach((g,i)=> g.classList.toggle('is-group-on', i===idx));
+        const g = groupEls[idx]; if (!g) return;
+        const children = Array.from(g.children);
+        const fi = groupFrame[idx] % Math.max(1, children.length);
+        children.forEach((c,i)=> c.classList.toggle('is-on', i===fi));
+      }
       function onScroll(){
         const rect = wrap.getBoundingClientRect();
         const total = Math.max(1, wrap.offsetHeight - window.innerHeight);
         const scrolled = Math.min(Math.max(-rect.top, 0), total);
-        const t = scrolled / total; // 0..1
-        const idx = Math.min(steps-1, Math.floor(t * steps + 0.00001));
-        slides.forEach((el,i)=> el.classList.toggle('is-active', i===idx));
-        dots.forEach((d,i)=> d.classList.toggle('active', i===idx));
+        const idxF = (scrolled / Math.max(1,total)) * (steps-1);
+        const idx = Math.min(steps-1, Math.max(0, Math.floor(idxF+1e-6)));
+        heads.forEach((el,i)=>{
+          const d = Math.abs(idxF - i);
+          const opacity = Math.max(0.2, 1 - d*0.9);
+          el.style.opacity = String(opacity);
+          el.classList.toggle('active', i===idx);
+        });
+        if (activeIdx !== idx){
+          activeIdx = idx;
+          setActive(activeIdx);
+        }
+        if (leadEl && lastIdx !== idx) leadEl.textContent = leads[idx] || '';
+        lastIdx = idx;
       }
+      setActive(activeIdx);
       onScroll();
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', onScroll);
+      // Cycle within active group
+      setInterval(()=>{
+        groupFrame[activeIdx] = (groupFrame[activeIdx] + 1);
+        setActive(activeIdx);
+      }, 4000);
     }
     document.addEventListener('DOMContentLoaded', initProjectFlow);
 
@@ -288,37 +375,32 @@
       <h1>テーマで巡るポートフォリオ</h1>
       <p>モチーフから世界観が立ち上がる制作の軌跡。</p>
     </section>
-    <section aria-label="プロジェクトの流れ" id="project-flow" class="flow-wrap" style="--steps:3;">
+    <section aria-label="プロジェクトの流れ" id="project-flow" class="flow-wrap" style="--steps:4; --flowH:75vh;">
       <div class="flow-pin">
         <div class="flow-stage">
-          <article class="flow-slide is-active" data-step="0">
-            <div class="flow-card">
-              <h3 class="flow-title">2023｜畑ロボット</h3>
-              <p class="flow-text">農と暮らしの現場から要件を抽出し、ロボティクスを“暮らしの道具”へ引き寄せる。身体拡張の最小構成を探る。</p>
+          <div class="flow-left">
+            <ul class="flow-headlines">
+              <li class="headline-item active"><span class="year">2023</span>畑ロボット</li>
+              <li class="headline-item"><span class="year">2024</span>山・稲作文化</li>
+              <li class="headline-item"><span class="year">2025</span>季節、土地とともに生きる</li>
+              <li class="headline-item"><span class="year">2026</span>京都へ</li>
+            </ul>
+            <p class="flow-lead" id="flow-lead">畑で立ち上げた道具観が、山と稲作を経て、季節と土地の呼吸へと続いていく。</p>
+          </div>
+          <div class="flow-right">
+            <div class="flow-media" id="flow-media">
+              <img src="content/projects/sample_project/thumb.svg" alt="2023" class="flow-img is-on">
+              <img src="content/projects/sample_project/thumb.svg" alt="2024" class="flow-img">
+              <video class="flow-vid" muted autoplay loop playsinline preload="metadata">
+                <source src="content/projects/季節、土地とともに生きる/cases/ohana-ike/video.mp4" type="video/mp4">
+              </video>
+              <img src="content/projects/sample_project/thumb.svg" alt="2026" class="flow-img">
             </div>
-          </article>
-          <article class="flow-slide" data-step="1">
-            <div class="flow-card">
-              <h3 class="flow-title">2024｜山・稲作文化</h3>
-              <p class="flow-text">山に入る。地形・水・稲作の所作に同調し、道具観を更新。土地の記憶に触れ、ものづくりの重心が移動する。</p>
-            </div>
-          </article>
-          <article class="flow-slide" data-step="2">
-            <div class="flow-card">
-              <h3 class="flow-title">2025｜季節、土地とともに生きる</h3>
-              <p class="flow-text">季節と土地の呼吸に同調する。衣・空間・音と光を編み、暮らしそのものをデザインとして立ち上げる。</p>
-            </div>
-          </article>
-          <div class="flow-dots" aria-hidden="false" role="tablist">
-            <span class="flow-dot active" data-goto="0" role="tab" aria-label="2023"></span>
-            <span class="flow-dot" data-goto="1" role="tab" aria-label="2024"></span>
-            <span class="flow-dot" data-goto="2" role="tab" aria-label="2025"></span>
           </div>
         </div>
       </div>
     </section>
-    <div id="themes-loading" class="content-panel" style="text-align:center; color:#777;">読み込み中…</div>
-    <div id="themes"></div>
+    
   </main>
 
   <script src="script.js?v=2"></script>
