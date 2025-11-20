@@ -130,41 +130,50 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // 浮遊する花びらを生成
+    // 浮遊する花びらを生成 (最適化版)
     function createFloatingPetals() {
         const petalsContainer = document.getElementById('petals-container');
         if (!petalsContainer) return;
 
+        // 画面サイズに応じて数を制限
+        const maxPetals = window.innerWidth < 768 ? 5 : 12;
+        let activePetals = 0;
+
         function createPetal() {
+            if (document.hidden || activePetals >= maxPetals) return;
+
             const petal = document.createElement('div');
             petal.className = 'petal';
             
-            // ランダムな位置とアニメーション遅延を設定
+            // ランダムな位置
             petal.style.left = Math.random() * 100 + '%';
-            petal.style.animationDelay = Math.random() * 6 + 's';
-            petal.style.animationDuration = (12 + Math.random() * 6) + 's';
+            // アニメーション時間を少し長めに
+            const duration = 15 + Math.random() * 10;
+            petal.style.animationDuration = duration + 's';
             
-            // ランダムなサイズ（より小さく繊細に）
-            const size = 3 + Math.random() * 4;
+            // ランダムなサイズ
+            const size = 4 + Math.random() * 6;
             petal.style.width = size + 'px';
             petal.style.height = size + 'px';
             
             petalsContainer.appendChild(petal);
+            activePetals++;
             
             // アニメーション完了後に削除
             setTimeout(() => {
                 if (petal.parentNode) {
                     petal.parentNode.removeChild(petal);
+                    activePetals--;
                 }
-            }, 20000);
+            }, duration * 1000);
         }
 
-        // 定期的に花びらを生成（より控えめに）
-        setInterval(createPetal, 1500);
+        // 生成間隔を少し広げる
+        setInterval(createPetal, 2000);
         
-        // 初期花びらを生成
+        // 初期生成
         for (let i = 0; i < 3; i++) {
-            setTimeout(createPetal, i * 2000);
+            setTimeout(createPetal, i * 1500);
         }
     }
 
@@ -227,11 +236,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     setTimeout(() => {
         if (!reduceMotion) {
-            // falling/particle effects disabled for a cleaner hero
-            // createFloatingPetals();
-            // addRotatingFlowers();
-            // addLightParticles();
-            // addSwayingEffect();
+            // 控えめに有効化
+            createFloatingPetals();
+            // addRotatingFlowers(); // 削除: 視覚的ノイズを減らす
+            // addLightParticles(); // 削除: パフォーマンス優先
+            // addSwayingEffect(); // 削除: テキストの可読性優先
         }
         initMediaGalleries();
         initForestParallax(reduceMotion);
