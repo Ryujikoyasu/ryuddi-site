@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +20,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="icons/logo-192.png">
   <link rel="mask-icon" href="icons/ohana-mandala.svg" color="#8E354A">
 </head>
+
 <body>
   <a href="#main-content" class="skip-link">コンテンツへスキップ</a>
   <div class="cursor"></div>
@@ -65,24 +67,7 @@
           <div class="atlas-grid" id="works-list">
             <div style="grid-column:1/-1;color:#777;">読み込み中…</div>
           </div>
-          
-          <!-- デフォルト状態で衣が抑制されていることを示す控えめなヒント（グリッドの下に表示） -->
-          <div id="atlas-more-hint" class="atlas-more-hint" hidden>
-            <button type="button" class="more-wear-btn" data-more-wear aria-label="衣の作品をリスト表示">
-              <span class="arrow" aria-hidden="true">⌄</span>
-              <span class="label-text">もっと見る</span>
-            </button>
-          </div>
-        </section>
-        <!-- 抑制された衣の作品をリスト表示する領域（クリックで展開） -->
-        <section id="atlas-more-list" class="atlas-more-list" hidden>
-          <div class="atlas-more-grid"></div>
-          <div class="atlas-more-actions">
-            <button type="button" class="more-wear-close-btn" data-more-close aria-label="リストを閉じる">
-              <span class="arrow" aria-hidden="true">⌃</span>
-              <span class="label-text">閉じる</span>
-            </button>
-          </div>
+
         </section>
       </div>
     </section>
@@ -97,25 +82,36 @@
         <div class="grid-container">
           <a class="grid-item" href="works/kusabana.html">
             <img src="images/works/kusabana-taku.jpg" alt="草花拓" loading="lazy" decoding="async">
-            <div class="item-overlay"><h3>草花拓</h3><p>布に季節の形を転写する技法</p></div>
+            <div class="item-overlay">
+              <h3>草花拓</h3>
+              <p>布に季節の形を転写する技法</p>
+            </div>
           </a>
           <a class="grid-item" href="works/kusaki-zome.html">
             <img src="images/techniques/kusaki-zome/karamushi/3.png" alt="草木染" loading="lazy" decoding="async">
-            <div class="item-overlay"><h3>草木染</h3><p>植物由来の色を布に宿す総覧（事例あり）</p></div>
+            <div class="item-overlay">
+              <h3>草木染</h3>
+              <p>植物由来の色を布に宿す総覧（事例あり）</p>
+            </div>
           </a>
         </div>
       </div>
     </section>
   </main>
   <script>
-    async function renderAllWorks(){
+    async function renderAllWorks() {
       const root = document.getElementById('works-list');
       if (!root) return;
       try {
         const base = new URL(document.currentScript?.src || 'works.html', document.baseURI).pathname.replace(/\/[^\/]*$/, '/');
+        const resolveAsset = (p) => {
+          if (!p) return base + 'content/projects/sample_project/thumb.svg';
+          if (/^(https?:|data:)/.test(p)) return p;
+          return p.startsWith('/') ? (base + p.slice(1)) : (base + p);
+        };
         const res = await fetch(base + 'content/projects/index.json', { credentials: 'same-origin' });
         const data = await res.json();
-        const items = (data.projects||[]);
+        const items = (data.projects || []).filter(p => p.featured !== false);
         root.innerHTML = '';
         const fallbackThumb = 'content/projects/sample_project/thumb.svg';
         const videoThumbSrc = {
@@ -126,31 +122,31 @@
         };
         // group by year
         const byYear = new Map();
-        items.forEach(p=>{
+        items.forEach(p => {
           const y = p.year || 'その他';
           if (!byYear.has(y)) byYear.set(y, []);
           byYear.get(y).push(p);
         });
-        const years = Array.from(byYear.keys()).sort((a,b)=> Number(b)-Number(a));
+        const years = Array.from(byYear.keys()).sort((a, b) => Number(b) - Number(a));
         const panel = root.parentElement;
         // replace placeholder grid by per-year blocks
         root.remove();
-        years.forEach(year=>{
+        years.forEach(year => {
           const title = document.createElement('h3');
           title.className = 'section-subhead';
           title.textContent = String(year);
           panel.appendChild(title);
           const grid = document.createElement('div'); grid.className = 'atlas-grid';
-          (byYear.get(year)||[]).forEach(p=>{
+          (byYear.get(year) || []).forEach(p => {
             const a = document.createElement('a'); a.className = 'atlas-item'; a.href = p.path || '#';
-            const video = videoThumbSrc[p.id];
+            const video = videoThumbSrc[p.id] && resolveAsset(videoThumbSrc[p.id]);
             const media = video ? `
               <video muted autoplay loop playsinline preload=\"metadata\">\n                <source src=\"${video}\" type=\"video/mp4\">\n              </video>
             ` : `
-              <img src=\"${p.thumbnail || fallbackThumb}\" alt=\"${p.title}\" loading=\"lazy\" decoding=\"async\">
+              <img src=\"${resolveAsset(p.thumbnail || fallbackThumb)}\" alt=\"${p.title}\" loading=\"lazy\" decoding=\"async\"> 
             `;
             a.innerHTML = `
-              <div class=\"meta\">${(p.category||[]).join(' / ')}</div>
+              <div class=\"meta\">${(p.category || []).join(' / ')}</div>
               ${media}
               <div class=\"label\">${p.title}</div>
             `;
@@ -158,7 +154,7 @@
           });
           panel.appendChild(grid);
         });
-      } catch(e) {
+      } catch (e) {
         root.innerHTML = '<div style="grid-column:1/-1;color:#b00;">読み込みに失敗しました</div>';
       }
     }
@@ -173,4 +169,5 @@
     </div>
   </footer>
 </body>
+
 </html>

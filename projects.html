@@ -191,8 +191,8 @@
       border-radius: 14px;
       overflow: hidden;
       box-shadow: 0 8px 24px rgba(0, 0, 0, .06);
-      background: #000;
-      /* 黒背景を追加 */
+      background: #fcfaf7;
+      /* 背景色を周りと統一 */
     }
 
     .flow-media .group {
@@ -327,6 +327,11 @@
       if (!container) return; // themes を表示しない構成なら何もしない
       try {
         const base = new URL(document.currentScript?.src || 'projects.html', document.baseURI).pathname.replace(/\/[^\/]*$/, '/');
+        const resolveAsset = (p) => {
+          if (!p) return base + 'content/projects/sample_project/thumb.svg';
+          if (/^(https?:|data:)/.test(p)) return p;
+          return p.startsWith('/') ? (base + p.slice(1)) : (base + p);
+        };
         const res = await fetch(base + 'content/projects/index.json', { credentials: 'same-origin' });
         if (!res.ok) throw new Error('Failed to load index.json');
         const data = await res.json();
@@ -390,7 +395,7 @@
             a.className = 'card';
             a.href = p.path || '#';
             a.innerHTML = `
-              <div class="card-fig">${p.thumbnail ? `<img src="${p.thumbnail}" alt="${p.title}">` : `<img src="${fallbackThumb}" alt="${p.title}">`}</div>
+              <div class="card-fig"><img src="${resolveAsset(p.thumbnail || fallbackThumb)}" alt="${p.title}"></div>
               <div class="card-body">
                 <h3 class="card-title">${p.title || ''}</h3>
                 <div class="card-meta">${(p.year || '')}${(p.category && p.category.length) ? ' ・ ' + p.category.join(', ') : ''}</div>
@@ -467,10 +472,10 @@
       // Build multi-media groups per year (2023-2026)
       const mediaGroups = [
         [ // 2023
-          { t: 'video', src: 'content/projects/畑ロボット/ohana-robot/images/ハイライトshort.mp4', type: 'video/mp4' }
+          { t: 'video', src: 'content/projects/畑ロボット/ohana-robot/images/highlight_optimized.mp4', type: 'video/mp4' }
         ],
         [ // 2024
-          { t: 'video', src: 'content/projects/山、稲作文化/vernacular-rice-robot/images/inasakurobo.mov', type: 'video/quicktime' },
+          { t: 'video', src: 'content/projects/山、稲作文化/vernacular-rice-robot/images/inasakurobo_optimized.mp4', type: 'video/mp4' },
           { t: 'img', src: 'content/projects/山、稲作文化/akebi-tengu/images/_A749585.jpg' },
           { t: 'img', src: 'content/projects/山、稲作文化/akebi-tengu/images/_A749589.jpg' },
           { t: 'img', src: 'content/projects/山、稲作文化/akebi-tengu/images/_A749596.jpg' },
@@ -478,7 +483,10 @@
         ],
         [ // 2025
           { t: 'video', src: 'content/projects/季節、土地とともに生きる/cases/ohana-ike/video.mp4', type: 'video/mp4' },
-          { t: 'video', src: 'content/projects/季節、土地とともに生きる/cases/shishi-odoshi/video.mp4', type: 'video/mp4' }
+          { t: 'video', src: 'content/projects/季節、土地とともに生きる/cases/shishi-odoshi/video_optimized.mp4', type: 'video/mp4' },
+          { t: 'img', src: 'content/projects/季節、土地とともに生きる/cases/zabuton-kushiro/1.jpg' },
+          { t: 'img', src: 'content/projects/季節、土地とともに生きる/wear/pants1/cover.jpg' },
+          { t: 'img', src: 'content/projects/季節、土地とともに生きる/wear/shirt1/cover.jpg' }
         ],
         [ // 2026
           { t: 'img', src: 'content/projects/sample_project/thumb.svg' }
@@ -490,7 +498,7 @@
         const g = document.createElement('div'); g.className = 'group';
         group.forEach(item => {
           if (item.t === 'video') {
-            const v = document.createElement('video'); v.className = 'flow-vid'; v.muted = true; v.playsInline = true; v.preload = 'metadata';
+            const v = document.createElement('video'); v.className = 'flow-vid'; v.muted = true; v.playsInline = true; v.preload = 'auto';
             // 単一アイテムの場合はループ、複数の場合はループしない（終わったら次へ）
             if (group.length === 1) { v.loop = true; } else { v.loop = false; }
 

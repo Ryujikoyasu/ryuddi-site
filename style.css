@@ -99,21 +99,43 @@ a:visited {
     outline-offset: 3px;
 }
 
-/* カスタムカーソル (控えめに) */
+/* カスタムカーソル (モダン & 見やすく) */
 .cursor {
-    width: 20px;
-    height: 20px;
-    border: 1px solid rgba(228, 161, 193, 0.8);
+    width: 36px;
+    height: 36px;
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, rgba(228, 161, 193, 0.7), rgba(125, 157, 133, 0.7)) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
     border-radius: 50%;
     position: fixed;
     pointer-events: none;
     transform: translate(-50%, -50%);
-    transition: width 0.3s, height 0.3s, background-color 0.3s, opacity 0.3s;
+    transition: width 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        height 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        opacity 0.2s ease;
     z-index: 9999;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(2px);
-    mix-blend-mode: difference;
+    box-shadow: 0 0 12px rgba(228, 161, 193, 0.3),
+        inset 0 0 8px rgba(255, 255, 255, 0.3);
 }
+
+.cursor::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: rgba(228, 161, 193, 0.9);
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(228, 161, 193, 0.6),
+        0 0 16px rgba(125, 157, 133, 0.4);
+    backdrop-filter: blur(2px);
+}
+
 
 /* ヒーローセクション */
 .hero-section {
