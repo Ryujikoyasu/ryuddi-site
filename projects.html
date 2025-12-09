@@ -226,6 +226,21 @@
       z-index: 1;
     }
 
+    /* Text note card for no-photo years */
+    .flow-note {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 24px;
+      background: linear-gradient(135deg, #fcfaf7 0%, #f3f0ea 100%);
+      color: #333;
+      text-align: center;
+    }
+    .flow-note .t1 { font-size: 20px; font-weight: 700; letter-spacing: .02em; }
+    .flow-note .t2 { font-size: 13px; color: #666; }
+
     .flow-headlines {
       list-style: none;
       padding: 0;
@@ -488,8 +503,8 @@
           { t: 'img', src: 'content/projects/季節、土地とともに生きる/wear/pants1/cover.jpg' },
           { t: 'img', src: 'content/projects/季節、土地とともに生きる/wear/shirt1/cover.jpg' }
         ],
-        [ // 2026
-          { t: 'img', src: 'content/projects/sample_project/thumb.svg' }
+        [ // 2026（写真なし・テキストカード）
+          { t: 'note', title: '京都で日本料理の板前修行', body: '包丁・出汁・所作 —— 素材の声に学ぶ' }
         ]
       ];
       // Reset and construct DOM
@@ -504,8 +519,14 @@
 
             const s = document.createElement('source'); s.src = item.src; if (item.type) s.type = item.type; v.appendChild(s);
             g.appendChild(v);
-          } else {
+          } else if (item.t === 'img') {
             const i = document.createElement('img'); i.className = 'flow-img'; i.src = item.src; i.alt = ''; g.appendChild(i);
+          } else if (item.t === 'note') {
+            const d = document.createElement('div'); d.className = 'flow-note';
+            const t1 = document.createElement('div'); t1.className = 't1'; t1.textContent = item.title || '';
+            const t2 = document.createElement('div'); t2.className = 't2'; t2.textContent = item.body || '';
+            d.appendChild(t1); d.appendChild(t2);
+            g.appendChild(d);
           }
         });
         mediaRoot.appendChild(g); return g;
@@ -516,7 +537,7 @@
         '畑で立ち上がる要件と、身体拡張としての道具観。フィールドの具体から、最小構成で応える。',
         '山に入る。地形と水に同調し、稲作や民俗の所作から、道具観を更新していく。',
         '季節と土地の呼吸に合わせ、衣・空間・光と音を編む。暮らしそのものが表現となる。',
-        '京都へ——土地を変え、連続の先で新たな編み直しへ。'
+        '京都で日本料理の板前修行へ。包丁と出汁の世界で、素材の声に耳を澄ます。'
       ];
       const steps = heads.length;
       let lastIdx = -1;
