@@ -392,6 +392,10 @@
 
         // Render in theme order
         container.innerHTML = '';
+        // Per-project fallback thumbnails (e.g., from YouTube) when local cover is missing
+        const fallbackThumbs = {
+          'interactive-silver-cart': 'https://img.youtube.com/vi/kCoPdMCVcN4/hqdefault.jpg'
+        };
         const relData = await loadRelations();
         themes.forEach(t => {
           const list = (byTheme.get(t.id) || []).filter(p => p.featured);
@@ -409,8 +413,10 @@
             const a = document.createElement('a');
             a.className = 'card';
             a.href = p.path || '#';
+            const thumb = resolveAsset(p.thumbnail || fallbackThumb);
+            const fb = fallbackThumbs[p.id] || fallbackThumb;
             a.innerHTML = `
-              <div class="card-fig"><img src="${resolveAsset(p.thumbnail || fallbackThumb)}" alt="${p.title}"></div>
+              <div class="card-fig"><img src="${thumb}" alt="${p.title}" onerror="this.onerror=null;this.src='${fb}'"></div>
               <div class="card-body">
                 <h3 class="card-title">${p.title || ''}</h3>
                 <div class="card-meta">${(p.year || '')}${(p.category && p.category.length) ? ' ・ ' + p.category.join(', ') : ''}</div>
@@ -485,9 +491,9 @@
       const heads = Array.from(wrap.querySelectorAll('.headline-item'));
       const mediaRoot = document.getElementById('flow-media');
       // Build multi-media groups per year (2023-2026)
-      const mediaGroups = [
+          const mediaGroups = [
         [ // 2023
-          { t: 'video', src: 'content/projects/畑ロボット/ohana-robot/images/highlight_optimized.mp4', type: 'video/mp4' }
+          { t: 'video', src: 'content/projects/畑ロボット/ohana-robot/images/highlight_optimized.mp4', type: 'video/mp4' }
         ],
         [ // 2024
           { t: 'video', src: 'content/projects/山、稲作文化/vernacular-rice-robot/images/inasakurobo_optimized.mp4', type: 'video/mp4' },
