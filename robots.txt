@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ryujikoyasu.github.io/ryuddi-site/sitemap.xml
