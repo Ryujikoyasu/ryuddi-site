@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" fill="none" class="garden-map" role="img" aria-labelledby="garden-title garden-description">
+<title id="garden-title">制作の庭</title><desc id="garden-description">田と山、水辺と草花、器と茶、畑のロボット。四つのテーマがひとつの庭でつながっています。各場所から制作の記録へ進めます。</desc>
+<defs>
+ <pattern id="water-lines" width="36" height="16" patternUnits="userSpaceOnUse"><path d="M0 9 Q9 3 18 9 T36 9" stroke="#6d9690" stroke-width=".6" opacity=".35"/></pattern>
+ <pattern id="rice-lines" width="28" height="24" patternUnits="userSpaceOnUse" patternTransform="rotate(-12)"><path d="M12 18v-9m0 7-5-6m5 2 4-6" stroke="#7b8962" stroke-width=".8"/></pattern>
+ <filter id="soft-shadow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="5"/></filter>
+</defs>
+<g class="terrain" stroke="#b9b6a3" stroke-width=".8">
+ <path d="M52 413C20 280 149 179 332 173S496 78 671 108s277 10 386 109 130 217 61 332-202 169-371 151S532 750 346 662 87 582 52 413Z" fill="#e9eadc" fill-opacity=".55"/>
+ <path d="M69 399C75 282 188 220 336 214s181-101 341-69 258 24 351 108 108 202 35 284-187 114-323 114-240 39-387-26S80 523 69 399Z"/>
+ <path d="M104 400c12-105 109-134 254-143s174-94 318-73 225 37 304 111 90 170 15 239-154 79-270 79-240 25-369-21S104 497 104 400Z" opacity=".55"/>
+</g>
+<!-- A continuous path: each year's work belongs to the same place. -->
+<path class="garden-path" d="M318 290C422 244 546 244 674 229s194 51 153 138-182 98-182 173 102 69 183 44M645 540c-72 79-252 62-304-10s81-85 130-159" stroke="#d4c6a8" stroke-width="20" stroke-linecap="round"/>
+<path d="M318 290C422 244 546 244 674 229s194 51 153 138-182 98-182 173 102 69 183 44M645 540c-72 79-252 62-304-10s81-85 130-159" stroke="#f8f4e8" stroke-width="14" stroke-linecap="round"/>
+<path d="M448 194c64 36 50 113 2 161s26 56-19 110-135 50-136 111" stroke="#8bafa7" stroke-width="5" opacity=".6"/>
+<!-- Mountains and terraced rice fields. -->
+<a href="#year-2024" class="garden-place place-rice" aria-label="2024 山、稲作文化の記録を開く"><title>2024 — 山、稲作文化</title><g>
+<path d="M145 272 257 126l78 91 57-69 94 141" fill="#d7decf" stroke="#72816b" stroke-width="1.2"/>
+<path d="m218 176 39-50 34 41-25-9-15 15-16-5ZM351 199l41-51 32 48-25-9-15 8" fill="#f5f2e8"/>
+<path d="M185 278q137-64 252 8l-12 30q-139-66-257-3Z" fill="#b7c3a0" stroke="#778367"/>
+<path d="M168 318q148-68 257 3l-15 33q-117-69-258-2Z" fill="#d6d9af" stroke="#778367"/>
+<path d="M152 357q142-71 258 3l-15 27q-126-54-257-2Z" fill="url(#rice-lines)" stroke="#778367"/>
+<path d="M180 281q124-45 231 4M169 324q130-49 236 6" stroke="#e6ecda" stroke-width="4"/>
+<g transform="translate(365 300)" stroke="#71614d" stroke-width="1.2"><path d="m0 0 28-20 28 20Z" fill="#9c8c6e"/><path d="M7 0v31h42V0" fill="#ddd1ac"/><path d="M24 31V13h13v18"/><path d="M4 34h50"/></g>
+<ellipse cx="294" cy="424" rx="111" ry="24" fill="#f4f1e7" fill-opacity=".92"/><text x="294" y="421" text-anchor="middle" class="map-year">2024</text><text x="294" y="443" text-anchor="middle" class="map-title">山、稲作文化</text>
+</g></a>
+<!-- Tea, a low table, and four little plates. -->
+<a href="#year-2026" class="garden-place place-tea" aria-label="2026 京都の記録を開く"><title>2026 — 京都</title><g>
+<ellipse cx="837" cy="281" rx="153" ry="82" fill="#d4d9bd" opacity=".55"/>
+<path d="M718 243 828 181l142 57-109 67Z" fill="#d9c8a6" stroke="#8f8067" stroke-width="1.2"/><path d="m718 243 2 14 141 64 109-67v-16M861 305v16" stroke="#8f8067" fill="#bfad8e"/><path d="M742 268v33m201-32v28" stroke="#8f8067" stroke-width="5"/>
+<g transform="translate(801 221)" stroke="#5c7667"><path d="m0 0 24-13 29 12-24 15Z" fill="#e8e4cc"/><path d="m0 0 4 6 25 12 24-14V-1" fill="#b2bf9b"/><path d="m19-2 8 6 9-5m-9 5v5"/></g>
+<g transform="translate(855 244)" stroke="#5c7667"><path d="m0 0 24-13 29 12-24 15Z" fill="#e8e4cc"/><path d="m0 0 4 6 25 12 24-14V-1" fill="#b2bf9b"/><path d="m18-1 14 5m-12 2 9-9"/></g>
+<ellipse cx="774" cy="244" rx="15" ry="7" fill="#697f5a" stroke="#586b4b"/><path d="M759 244q1 19 15 19t15-19" fill="#a9ad84" stroke="#586b4b"/>
+<g class="tea-steam" stroke="#a2a08a" stroke-width="1"><path d="M771 229c-9-10 10-11 1-24m8 19c-7-8 8-10 2-19"/></g>
+<g transform="translate(936 149)" stroke="#566f59"><path d="M0 93V3m0 45-32-24m32 43 29-36" stroke-width="2"/><path d="M-4 24c-35-2-33-30-12-27 3-26 39-20 37 2 29-3 36 28 4 32m-54 19c-33-1-37-23-15-31M7 59c31 8 49-13 23-27" fill="#b2bea0"/></g>
+<ellipse cx="838" cy="359" rx="78" ry="25" fill="#f4f1e7" fill-opacity=".94"/><text x="838" y="354" text-anchor="middle" class="map-year">2026</text><text x="838" y="378" text-anchor="middle" class="map-title">京都</text><circle class="garden-sprout" cx="883" cy="350" r="3" fill="#9b5138"/>
+</g></a>
+<!-- A pond, glass floats, and reeds. -->
+<a href="#year-2025" class="garden-place place-pond" aria-label="2025 季節、土地とともに生きるの記録を開く"><title>2025 — 季節、土地とともに生きる</title><g>
+<path d="M177 501c39-52 139-52 201-21s100 21 109 65-40 72-126 72-76-26-146-33-79-32-38-83Z" fill="#adc5bb" stroke="#7c9e91"/>
+<path d="M177 501c39-52 139-52 201-21s100 21 109 65-40 72-126 72-76-26-146-33-79-32-38-83Z" fill="url(#water-lines)"/>
+<path d="M206 544q38-22 67-8m76 34q45-20 77-2m-133-61 31-3m-81 53 28 2" stroke="#e6ede0" stroke-width="1.3"/>
+<g class="pond-float" style="--delay:-0.0s"><circle cx="220" cy="515" r="8" fill="#e7dcae" opacity=".45"/><circle cx="220" cy="515" r="3" fill="#fff5cb"/><path d="M216 525h8" stroke="#e9edce"/></g><g class="pond-float" style="--delay:-0.8s"><circle cx="288" cy="500" r="8" fill="#e7dcae" opacity=".45"/><circle cx="288" cy="500" r="3" fill="#fff5cb"/><path d="M284 510h8" stroke="#e9edce"/></g><g class="pond-float" style="--delay:-1.6s"><circle cx="355" cy="519" r="8" fill="#e7dcae" opacity=".45"/><circle cx="355" cy="519" r="3" fill="#fff5cb"/><path d="M351 529h8" stroke="#e9edce"/></g><g class="pond-float" style="--delay:-2.4000000000000004s"><circle cx="415" cy="540" r="8" fill="#e7dcae" opacity=".45"/><circle cx="415" cy="540" r="3" fill="#fff5cb"/><path d="M411 550h8" stroke="#e9edce"/></g><g class="pond-float" style="--delay:-3.2s"><circle cx="364" cy="579" r="8" fill="#e7dcae" opacity=".45"/><circle cx="364" cy="579" r="3" fill="#fff5cb"/><path d="M360 589h8" stroke="#e9edce"/></g><g class="pond-float" style="--delay:-4.0s"><circle cx="276" cy="571" r="8" fill="#e7dcae" opacity=".45"/><circle cx="276" cy="571" r="3" fill="#fff5cb"/><path d="M272 581h8" stroke="#e9edce"/></g><g class="pond-float" style="--delay:-4.800000000000001s"><circle cx="195" cy="552" r="8" fill="#e7dcae" opacity=".45"/><circle cx="195" cy="552" r="3" fill="#fff5cb"/><path d="M191 562h8" stroke="#e9edce"/></g><g stroke="#6f8360" stroke-width="1.2"><path d="M172 515q-5-43-16-65m17 69q8-55 19-64m-10 56 28-39m233 80q-6-45 8-72m-4 60 30-42m-22 50 30-17"/><path d="m156 450-4-10m40 15 3-10m15 27 6-9" stroke="#a28f64" stroke-width="3"/></g>
+<path d="M112 501q-13-46 8-70m-1 48-22-17m24 1 26-18" stroke="#778568"/><path d="M109 459c-30-14-35-39-14-29s28 34 14 29m13-13c1-31 33-41 22-15s-22 15-22 15" fill="#b3c09c" stroke="#778568"/>
+<ellipse cx="330" cy="651" rx="151" ry="27" fill="#f4f1e7" fill-opacity=".94"/><text x="330" y="646" text-anchor="middle" class="map-year">2025</text><text x="330" y="669" text-anchor="middle" class="map-title">季節、土地とともに生きる</text>
+</g></a>
+<!-- A machine has found a home in the vegetable patch. -->
+<a href="#year-2023" class="garden-place place-robot" aria-label="2023 畑ロボットの記録を開く"><title>2023 — 畑ロボット</title><g>
+<path d="m729 503 163-29 129 83-170 48Z" fill="#dac9a9" stroke="#a99b7f"/>
+<path d="m753 513 127-26m-104 40 125-28m-100 45 125-30m-100 47 125-31m-98 49 124-33" stroke="#a99b7f" stroke-width="2"/>
+<path d="M775 502v-10m0 6q-13-2-12-11 13 0 12 11m0-3q3-13 12-12 0 11-12 12" fill="#9aa67a" stroke="#6d805e" stroke-width=".9"/><path d="M806 521v-10m0 6q-13-2-12-11 13 0 12 11m0-3q3-13 12-12 0 11-12 12" fill="#9aa67a" stroke="#6d805e" stroke-width=".9"/><path d="M835 543v-10m0 6q-13-2-12-11 13 0 12 11m0-3q3-13 12-12 0 11-12 12" fill="#9aa67a" stroke="#6d805e" stroke-width=".9"/><path d="M865 561v-10m0 6q-13-2-12-11 13 0 12 11m0-3q3-13 12-12 0 11-12 12" fill="#9aa67a" stroke="#6d805e" stroke-width=".9"/><path d="M901 550v-10m0 6q-13-2-12-11 13 0 12 11m0-3q3-13 12-12 0 11-12 12" fill="#9aa67a" stroke="#6d805e" stroke-width=".9"/><path d="M936 542v-10m0 6q-13-2-12-11 13 0 12 11m0-3q3-13 12-12 0 11-12 12" fill="#9aa67a" stroke="#6d805e" stroke-width=".9"/><path d="M866 508v-10m0 6q-13-2-12-11 13 0 12 11m0-3q3-13 12-12 0 11-12 12" fill="#9aa67a" stroke="#6d805e" stroke-width=".9"/><g class="little-robot" stroke="#5b6f65" stroke-width="1.4"><ellipse cx="876" cy="486" rx="49" ry="11" fill="#7c8270" opacity=".16" stroke="none"/><path d="m822 463 45-20 48 24-43 20Z" fill="#e5dfc3"/><path d="M822 463v19l50 24 43-23v-16l-43 20Z" fill="#a5b4a0"/><path d="M872 487v19M839 476v-48l36-17 27 14v49" stroke-width="3"/><path d="m838 427 37-18 28 15-35 20Z" fill="#d7d6bf"/><path d="m838 427 30 17v19l-30-16Z" fill="#d9dfcd"/><path d="m868 444 35-20v20l-35 19Z" fill="#bccabb"/><circle cx="847" cy="439" r="2" fill="#344d40"/><circle cx="859" cy="445" r="2" fill="#344d40"/><path d="M849 450q4 5 8 3"/><path d="M875 410v-16"/><circle cx="875" cy="392" r="3" fill="#ad6d48" stroke="none"/><ellipse cx="833" cy="485" rx="7" ry="12" fill="#7e8978"/><ellipse cx="889" cy="509" rx="7" ry="12" fill="#7e8978"/><ellipse cx="919" cy="488" rx="6" ry="11" fill="#7e8978"/></g>
+<ellipse cx="865" cy="640" rx="107" ry="26" fill="#f4f1e7" fill-opacity=".94"/><text x="865" y="635" text-anchor="middle" class="map-year">2023</text><text x="865" y="659" text-anchor="middle" class="map-title">畑ロボット</text>
+</g></a>
+<!-- Small stones leave room for a life between projects. -->
+<g fill="#c6c5b2" stroke="#a3a58e" stroke-width=".6"><path d="m576 361 11-7 14 8-3 11-19 1Z"/><path d="m606 394 7-9 15 3 3 12-13 4Z"/><path d="m578 421 11-3 10 11-6 8-15-4Z"/><path d="m578 476 14-9 9 5-2 12-17 3Z"/></g>
+<g stroke="#7b896e" stroke-width="1"><path d="M558 559v-22m0 9-10-8m10 1 9-10M544 566v-13m0 5-7-4m165-184v-23m0 13-11-7m11 1 9-11"/></g>
+<g fill="#9b684e"><circle cx="552" cy="533" r="2"/><circle cx="566" cy="527" r="2"/><circle cx="698" cy="345" r="2"/></g>
+<g class="garden-butterfly" stroke="#9a7c54" stroke-width="1" transform="translate(613 281)"><path d="M0 0c-22-22-29 6-3 7C-15 26 5 27 0 7c22 17 29-8 3-7C17-20-4-23 0 0Z" fill="#ddd3b2"/><path d="m0 0 2 8"/></g>
+</svg>

@@ -29,3 +29,13 @@ id / title / year / summary / cover / methods / url を全作品で揃えます�
 
 年のテーマと制作場所は別の情報です。2026年のテーマは京都、織部鉄絵四方皿の制作場所は多治見・住吉窯。
 未確認の寸法や担当者などは推測で補いません。
+
+## 制作の庭（Themes）と記録（Works）
+
+- `index.html` と互換URLの `projects.html` は「制作の庭」。
+- `assets/garden/garden.svg` は庭の原画。ビルド時にページ内へ埋め込まれます。
+- `assets/garden/garden.css` が庭のレイアウト・動きを担当します。
+- 原画の各場所と、HTML上のテーマ名から `#year-YYYY` の記録が開きます。
+- JavaScriptなしでは全記録を表示。動きを抑える端末設定にも対応します。
+- `works.html` は年ごとのテーマ説明、作品映像、全作品の一覧です。
+- 新しい年を追加するときはデータに加え、庭の場所と `.label-YYYY` の位置も編集します。
