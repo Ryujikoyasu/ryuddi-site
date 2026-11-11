@@ -164,7 +164,7 @@
       "title": "カラムシ染",
       "year": 2025,
       "summary": "小院瀬見で採取したカラムシを煮出し、田の泥に含まれる鉄分で媒染した染色実験です。採取から染めまでを同じ土地の素材でつなぎました。",
-      "cover": "assets/media/karamushi.webp",
+      "cover": "content/projects/季節、土地とともに生きる/techniques/kusaki-zome/karamushi/3.png",
       "methods": "カラムシ、布、泥",
       "url": "works/karamushi.html"
     },
@@ -191,7 +191,7 @@
       "title": "草木染",
       "year": 2025,
       "summary": "植物に由来する色を布へ定着させる技法の記録。媒染と季節による色の変化を探る。",
-      "cover": "assets/media/karamushi.webp",
+      "cover": "assets/media/kusagi.webp",
       "methods": "植物、布、媒染",
       "url": "works/kusaki-zome.html"
     },

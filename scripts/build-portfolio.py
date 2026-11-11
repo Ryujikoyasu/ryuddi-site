@@ -10,7 +10,7 @@ def nav(prefix='',active=''):
 def page(title,desc,body,name,active):
  canonical=base+('' if name in ['index.html','projects.html'] else name)
  return f'''<!doctype html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{e(title)} — 子安竜司</title><meta name="description" content="{e(desc)}"><link rel="canonical" href="{canonical}"><link rel="icon" href="icons/ohana-mandala.svg"><link rel="stylesheet" href="portfolio.css?v=garden-3"><link rel="stylesheet" href="assets/garden/garden.css?v=garden-3"><meta property="og:title" content="{e(title)} — 子安竜司"><meta property="og:description" content="{e(desc)}"><meta property="og:type" content="website"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{base}assets/media/oribe-square-plates-front.webp"><meta name="twitter:card" content="summary_large_image"></head><body><a class="skip" href="#main">本文へ</a>{nav(active=active)}<main id="main">{body}</main><footer class="footer"><div>制作・展示・共同研究などのご連絡<br><a href="mailto:ryuddi0wani@gmail.com">ryuddi0wani@gmail.com</a></div><small>© 2026 Ryuji Koyasu</small></footer><script src="portfolio.js?v=garden-3"></script></body></html>'''
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{e(title)} — 子安竜司</title><meta name="description" content="{e(desc)}"><link rel="canonical" href="{canonical}"><link rel="icon" href="icons/ohana-mandala.svg"><link rel="stylesheet" href="portfolio.css?v=garden-4"><link rel="stylesheet" href="assets/garden/garden.css?v=garden-4"><meta property="og:title" content="{e(title)} — 子安竜司"><meta property="og:description" content="{e(desc)}"><meta property="og:type" content="website"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{base}assets/media/oribe-square-plates-front.webp"><meta name="twitter:card" content="summary_large_image"></head><body><a class="skip" href="#main">本文へ</a>{nav(active=active)}<main id="main">{body}</main><footer class="footer"><div>制作・展示・共同研究などのご連絡<br><a href="mailto:ryuddi0wani@gmail.com">ryuddi0wani@gmail.com</a></div><small>© 2026 Ryuji Koyasu</small></footer><script src="portfolio.js?v=garden-4"></script></body></html>'''
 # Themes is a navigable garden; the chronological documentation lives in Works.
 art=(ROOT/'assets/garden/garden.svg').read_text()
 art=art.replace('role="img"','role="group"')
@@ -29,14 +29,16 @@ for t in data['themes']:
  y=t['year']; world=(ROOT/f'assets/garden/world-{y}.svg').read_text()
  # Local pattern references keep each inner illustration self-contained.
  world=world.replace('url(#rice-lines)',f'url(#inner-rice-{y})').replace('url(#water-lines)',f'url(#inner-rice-{y})')
- intro+=f'<section class="garden-world" id="year-{y}" aria-labelledby="world-heading-{y}"><header class="world-heading"><a href="#garden-overview" class="garden-back" data-garden-back>← 庭へ戻る</a><div><span>{y}</span><h2 id="world-heading-{y}" tabindex="-1">{e(t["title"])}</h2></div><a href="works.html#year-{y}" class="world-works">作品一覧 ↗</a></header><div class="world-illustration">{world}</div><div class="world-notes">'
+ intro+=f'<section class="garden-world" id="year-{y}" aria-labelledby="world-heading-{y}"><header class="world-heading"><a href="#garden-overview" class="garden-back" data-garden-back>← 庭へ戻る</a><div><span>{y}</span><h2 id="world-heading-{y}" tabindex="-1">{e(t["title"])}</h2></div><a href="works.html#year-{y}" class="world-works">作品一覧 ↗</a></header><div class="world-illustration">{world}</div><p class="photo-hint">図のものに触れると、実物の写真がひらきます。</p><div class="world-notes">'
  for heading,text in world_notes[y]:
   intro+=f'<section><h3>{e(heading)}</h3><p>{e(text)}</p></section>'
  intro+='</div><nav class="world-neighbors" aria-label="ほかのテーマへ">'
  for other in data['themes']:
   if other['year']!=y: intro+=f'<a href="#year-{other["year"]}" data-world-link><span>{other["year"]}</span> {e(other["title"])}</a>'
  intro+='</nav></section>'
-intro+='</div>'
+intro+='</div><div id="work-peek" class="photo-peek" popover="auto" role="dialog" aria-labelledby="peek-title"><button type="button" class="peek-close" aria-label="写真を閉じる">×</button><figure><img id="peek-image" alt=""><figcaption><span id="peek-title"></span><a id="peek-link" href="works.html">作品の記録 ↗</a></figcaption></figure></div>'
+photo_data={w['id']:{'title':w['title'],'src':w['cover'],'url':w['url']} for w in data['works']}
+intro+='<script type="application/json" id="photo-data">'+json.dumps(photo_data,ensure_ascii=False).replace('<','\\u003c')+'</script>'
 for name in ['index.html','projects.html']:
  (ROOT/name).write_text(page('Themes / 制作の庭','子安竜司のポートフォリオ。2026 京都、2025 季節、土地とともに生きる、2024 山、稲作文化、2023 畑ロボット。',intro,name,'themes'))
 body='<header class="page-title"><span class="eyebrow">2023—2026</span><h1>作品一覧</h1><p>年ごとのテーマから生まれた作品と、素材・技法の記録。</p><nav class="year-nav" aria-label="制作年">'+''.join(f'<a href="#year-{t["year"]}">{t["year"]}</a>' for t in data['themes'])+'</nav></header>'
