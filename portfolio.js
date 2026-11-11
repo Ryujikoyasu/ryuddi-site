@@ -10,50 +10,50 @@ document.querySelectorAll('[data-filter]').forEach(button => button.addEventList
   });
 }));
 
-// Native details and anchors keep every theme reachable without JavaScript.
-const garden = document.querySelector('.garden-stage');
-if (garden) {
-  const records = [...document.querySelectorAll('.garden-record')];
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const recordForHash = hash => records.find(record => `#${record.id}` === hash);
-  const openRecord = (record, scroll) => {
-    records.forEach(other => {
-      if (other !== record) {
-        other.open = false;
-        other.querySelectorAll('video').forEach(video => video.pause());
-      }
-    });
-    record.open = true;
-    if (scroll) record.scrollIntoView({ behavior: reducedMotion.matches ? 'instant' : 'smooth', block: 'start' });
+// Switch between the whole garden and its inner worlds in the same place.
+// Anchors and :target provide a complete fallback without JavaScript.
+const gardenShell = document.querySelector('.garden-shell');
+if (gardenShell) {
+  const overview = document.querySelector('.garden-overview');
+  const worlds = [...document.querySelectorAll('.garden-world')];
+  const garden = document.querySelector('.garden-stage');
+  let returnTarget = null;
+  const worldForHash = hash => worlds.find(world => `#${world.id}` === hash);
+  const render = (hash, focus = false) => {
+    const current = worldForHash(hash);
+    overview.hidden = Boolean(current);
+    worlds.forEach(world => { world.hidden = world !== current; });
+    document.body.classList.toggle('world-open', Boolean(current));
+    if (focus) {
+      if (current) current.querySelector('h2').focus({ preventScroll: true });
+      else (returnTarget || overview.querySelector('[data-garden-link]')).focus({ preventScroll: true });
+    }
   };
-  records.forEach(record => { record.open = false; });
-  const initial = recordForHash(location.hash);
-  if (initial) openRecord(initial, true);
-  const showHash = () => {
-    const record = recordForHash(location.hash);
-    if (record) openRecord(record, true);
-  };
-  window.addEventListener('hashchange', showHash);
-  garden.querySelectorAll('a[href^="#year-"]').forEach(link => {
+  gardenShell.classList.add('is-enhanced');
+  render(location.hash);
+  gardenShell.querySelectorAll('a[href^="#year-"], [data-garden-back]').forEach(link => {
     link.addEventListener('click', event => {
+      // Preserve modified clicks and opening a link in a new tab.
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       const hash = link.getAttribute('href');
-      const record = recordForHash(hash);
-      if (!record) return;
+      if (!worldForHash(hash) && hash !== '#garden-overview') return;
       event.preventDefault();
+      if (link.closest('.garden-overview')) returnTarget = link;
       if (location.hash !== hash) history.pushState(null, '', hash);
-      openRecord(record, true);
-      garden.classList.add('garden-touched');
-      // Move keyboard focus to the opened record without another scroll.
-      record.querySelector('summary').focus({ preventScroll: true });
+      render(hash, true);
     });
   });
-  // External text labels and the illustration share the same small responses.
+  window.addEventListener('popstate', () => render(location.hash, true));
+  window.addEventListener('hashchange', () => render(location.hash, true));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && worldForHash(location.hash)) {
+      history.pushState(null, '', '#garden-overview');
+      render('#garden-overview', true);
+    }
+  });
   document.querySelectorAll('[data-garden-link]').forEach(link => {
     const place = garden.querySelector(`.garden-place[href="${link.getAttribute('href')}"]`);
     ['pointerenter', 'focus'].forEach(name => link.addEventListener(name, () => place?.classList.add('is-active')));
     ['pointerleave', 'blur'].forEach(name => link.addEventListener(name, () => place?.classList.remove('is-active')));
   });
-  records.forEach(record => record.addEventListener('toggle', () => {
-    if (!record.open) record.querySelectorAll('video').forEach(video => video.pause());
-  }));
 }
